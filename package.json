@@ -1,5 +1,5 @@
 {
-  "name": "vite-template-solid",
+  "name": "simple-frontend-stack",
   "version": "0.0.0",
   "description": "",
   "type": "module",
@@ -7,14 +7,17 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "update": "bun x npm-check-updates",
+    "upgrade": "bun x npm-check-updates --upgrade && bun install"
   },
   "license": "MIT",
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.7",
-    "tailwindcss": "^4.0.7",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.0",
+    "@tailwindcss/vite": "^4.0.12",
+    "npm-check-updates": "^17.1.15",
+    "tailwindcss": "^4.0.12",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.1",
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
