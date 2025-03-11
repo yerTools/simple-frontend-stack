@@ -1,7 +1,25 @@
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import PocketBase from "pocketbase";
-import { Component, For, Show, createSignal, onMount } from "solid-js";
+import {
+  Component,
+  FlowComponent,
+  For,
+  JSX,
+  Show,
+  createEffect,
+  createSignal,
+  onMount,
+} from "solid-js";
 import { createSwapy } from "swapy";
+import { Observer } from "tailwindcss-intersect";
+
+const ObserverProvider: FlowComponent = (props: { children: JSX.Element }) => {
+  createEffect(() => {
+    Observer.start();
+  });
+
+  return <>{props.children}</>;
+};
 
 const pb = new PocketBase();
 pb.health
@@ -25,6 +43,7 @@ const App: Component = () => {
 
   const menuItems = ["Home", "Settings", "Logout"];
   const [isExpanded, setIsExpanded] = createSignal(true);
+  const scroll = new Array(100);
 
   return (
     <div>
@@ -88,6 +107,15 @@ const App: Component = () => {
           </div>
         </div>
       </div>
+      <ObserverProvider>
+        <For each={scroll}>
+          {() => (
+            <div class="intersect:motion-opacity-in-0 intersect:motion-translate-y-in-100 intersect:motion-rotate-in-180 intersect-once bg-error p-10">
+              Complex scroll animation
+            </div>
+          )}
+        </For>
+      </ObserverProvider>
     </div>
   );
 };

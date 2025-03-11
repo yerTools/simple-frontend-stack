@@ -7,3 +7,4 @@
 - https://swapy.tahazsh.com/
 - https://auto-animate.formkit.com/
 - https://pocketbase.io/
+- https://github.com/heidkaemper/tailwindcss-intersect
