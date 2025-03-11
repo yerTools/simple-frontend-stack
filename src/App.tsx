@@ -7,7 +7,7 @@ const App: Component = () => {
     <div>
       <p class="py-20 text-center text-4xl text-green-700">Hello tailwind!</p>
       <button
-        class="btn"
+        class="btn motion-preset-shake"
         onClick={() => setCount(count() + 1)}
       >
         Click Me!
