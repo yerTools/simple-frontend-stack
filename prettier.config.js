@@ -19,7 +19,23 @@ const config = {
   trailingComma: "all",
   useTabs: false,
   vueIndentScriptAndStyle: false,
-  plugins: ["prettier-plugin-import-sort", "prettier-plugin-tailwindcss"],
+  importOrder: [
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^solid-js$",
+    "^solid-js/(.*)$",
+    "^pocketbase$",
+    "^pocketbase/(.*)$",
+    "^[^./]",
+    "^[./]",
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  plugins: [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+  ],
 };
 
 export default config;

@@ -97,17 +97,6 @@ export default [
         },
       ],
 
-      "import/order": [
-        "error",
-        {
-          groups: [
-            ["builtin", "external", "internal"],
-            ["parent", "sibling", "index"],
-          ],
-          "newlines-between": "always",
-        },
-      ],
-
       "import/no-unused-modules": "error",
       "require-await": "error",
       "no-return-await": "error",

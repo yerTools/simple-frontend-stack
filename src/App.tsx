@@ -1,5 +1,3 @@
-import { createAutoAnimate } from "@formkit/auto-animate/solid";
-import PocketBase from "pocketbase";
 import {
   Component,
   FlowComponent,
@@ -10,6 +8,10 @@ import {
   createSignal,
   onMount,
 } from "solid-js";
+
+import PocketBase from "pocketbase";
+
+import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { createSwapy } from "swapy";
 import { Observer } from "tailwindcss-intersect";
 
