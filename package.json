@@ -46,7 +46,8 @@
     "tailwindcss-motion": "^1.1.0",
     "typescript": "^5.8.2",
     "vite": "^6.2.1",
-    "vite-plugin-solid": "^2.11.6"
+    "vite-plugin-solid": "^2.11.6",
+    "vite-plugin-webfont-dl": "^3.10.4"
   },
   "dependencies": {
     "solid-js": "^1.9.5"
