@@ -53,13 +53,6 @@ export default [
     },
 
     rules: {
-      "prettier/prettier": [
-        "error",
-        {
-          singleQuote: false,
-        },
-      ],
-
       quotes: ["error", "double"],
       "no-console": "error",
       "no-debugger": "error",
@@ -145,7 +138,7 @@ export default [
   ...compat.extends("plugin:prettier/recommended"),
   {
     "rules": {
-      "prettier/prettier": ["error"],
+      "prettier/prettier": ["warn"],
     },
   },
 ];
