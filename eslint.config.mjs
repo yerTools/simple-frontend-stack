@@ -54,7 +54,7 @@ export default [
 
     rules: {
       quotes: ["error", "double"],
-      "no-console": "error",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-debugger": "error",
       "no-alert": "error",
       "no-var": "error",

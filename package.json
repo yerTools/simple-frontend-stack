@@ -36,6 +36,7 @@
     "husky": "^9.1.7",
     "import-sort-style-module": "^6.0.0",
     "npm-check-updates": "^17.1.15",
+    "pocketbase": "^0.25.2",
     "prettier": "^3.5.3",
     "prettier-plugin-import-sort": "^0.0.7",
     "prettier-plugin-tailwindcss": "^0.6.11",

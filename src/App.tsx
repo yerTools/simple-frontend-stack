@@ -1,6 +1,17 @@
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
+import PocketBase from "pocketbase";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
 import { createSwapy } from "swapy";
+
+const pb = new PocketBase();
+pb.health
+  .check()
+  .then((res) => {
+    console.log("[PocketBase] Health Check:", res);
+  })
+  .catch((err) => {
+    console.error("[PocketBase] Health Check Error:", err);
+  });
 
 const App: Component = () => {
   const [count, setCount] = createSignal(0);
