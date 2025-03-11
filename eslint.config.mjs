@@ -142,10 +142,8 @@ export default [
     },
   },
   solid.configs["flat/typescript"],
+  ...compat.extends("plugin:prettier/recommended"),
   {
-    "extends": [
-      "plugin:prettier/recommended",
-    ],
     "rules": {
       "prettier/prettier": ["error"],
     },
