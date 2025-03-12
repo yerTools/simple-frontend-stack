@@ -1,5 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
+import lqip from "vite-plugin-lqip";
 import solidPlugin from "vite-plugin-solid";
 import webfontDownload from "vite-plugin-webfont-dl";
 
@@ -10,6 +11,7 @@ export default defineConfig({
     }),
     solidPlugin(),
     tailwindcss(),
+    lqip(),
   ],
   server: {
     port: 3000,

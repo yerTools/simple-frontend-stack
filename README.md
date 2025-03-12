@@ -14,3 +14,4 @@
 (https://github.com/vitejs/awesome-vite)
 
 - https://github.com/feat-agency/vite-plugin-webfont-dl
+- https://github.com/drwpow/vite-plugin-lqip

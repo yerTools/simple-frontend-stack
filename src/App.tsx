@@ -15,6 +15,8 @@ import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { createSwapy } from "swapy";
 import { Observer } from "tailwindcss-intersect";
 
+import waspOnFlower from "../img/wasp_on_flower.jpeg?lqip";
+
 const ObserverProvider: FlowComponent = (props: { children: JSX.Element }) => {
   createEffect(() => {
     Observer.start();
@@ -87,6 +89,15 @@ const App: Component = () => {
           </button>
         </div>
       </div>
+      <img
+        src={waspOnFlower.src}
+        width={waspOnFlower.width}
+        height={waspOnFlower.height}
+        style={{
+          "background-image": `url("${waspOnFlower.lqip}")`,
+          "background-size": "cover",
+        }}
+      />
       <div
         class="container"
         ref={containerRef}
