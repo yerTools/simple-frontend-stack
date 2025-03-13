@@ -20,6 +20,7 @@ const config = {
   useTabs: false,
   vueIndentScriptAndStyle: false,
   importOrder: [
+    "\\.css$",
     "^@core/(.*)$",
     "^@server/(.*)$",
     "^@ui/(.*)$",
