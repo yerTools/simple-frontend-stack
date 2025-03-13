@@ -9,6 +9,8 @@
 - https://pocketbase.io/
 - https://github.com/heidkaemper/tailwindcss-intersect
 - https://github.com/nanostores/nanostores
+- https://github.com/pablo-abc/felte
+- https://github.com/jquense/yup
 
 # Check some vite plugins:
 
