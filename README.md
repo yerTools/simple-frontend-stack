@@ -13,6 +13,7 @@
 - https://github.com/jquense/yup
 - https://kobalte.dev
 - https://lucide.dev/
+- https://github.com/solidjs/solid-router
 
 # Check some vite plugins:
 
