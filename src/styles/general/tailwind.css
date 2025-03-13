@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@plugin "tailwindcss-motion";
+@import "tailwindcss-intersect";
+@plugin "@kobalte/tailwindcss";
+
+/* https://daisyui.com/docs/config/ */
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark;
+  root: ":root";
+  include:;
+  exclude:;
+  prefix:;
+  logs: false;
+}

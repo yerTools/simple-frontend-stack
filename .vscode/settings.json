@@ -36,5 +36,6 @@
     "prettier.useEditorConfig": false,
     "prettier.useTabs": false,
     "prettier.vueIndentScriptAndStyle": false,
-    "prettier.withNodeModules": false
+    "prettier.withNodeModules": false,
+    "cSpell.language": "en,de"
 }

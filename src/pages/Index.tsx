@@ -15,7 +15,7 @@ import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { createSwapy } from "swapy";
 import { Observer } from "tailwindcss-intersect";
 
-import waspOnFlower from "../img/wasp_on_flower.jpeg?lqip";
+import waspOnFlower from "../images/wasp_on_flower.jpeg?lqip";
 
 const ObserverProvider: FlowComponent = (props: { children: JSX.Element }) => {
   createEffect(() => {
@@ -35,7 +35,7 @@ pb.health
     console.error("[PocketBase] Health Check Error:", err);
   });
 
-const App: Component = () => {
+const Index: Component = () => {
   const [count, setCount] = createSignal(0);
   let containerRef!: HTMLDivElement;
 
@@ -133,4 +133,4 @@ const App: Component = () => {
   );
 };
 
-export default App;
+export default Index;
