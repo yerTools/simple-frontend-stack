@@ -18,7 +18,7 @@ export default defineConfig({
     lqip(),
   ],
   server: {
-    port: 3000,
+    port: 8161,
   },
   build: {
     outDir: resolve(__dirname, "dist"),
