@@ -15,6 +15,7 @@
 - https://lucide.dev/
 - https://github.com/solidjs/solid-router
 - https://github.com/solidjs-community/solid-ag-grid
+- https://stately.ai/docs/xstate-store
 
 # Check some vite plugins:
 
