@@ -5,6 +5,7 @@
 @import "tailwindcss";
 @plugin "tailwindcss-motion";
 @import "tailwindcss-intersect";
+@plugin "@kobalte/tailwindcss";
 
 /* https://daisyui.com/docs/config/ */
 @plugin "daisyui" {

@@ -11,6 +11,7 @@
 - https://github.com/nanostores/nanostores
 - https://github.com/pablo-abc/felte
 - https://github.com/jquense/yup
+- https://kobalte.dev
 
 # Check some vite plugins:
 
