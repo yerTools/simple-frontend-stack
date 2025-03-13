@@ -8,6 +8,7 @@
 - https://auto-animate.formkit.com/
 - https://pocketbase.io/
 - https://github.com/heidkaemper/tailwindcss-intersect
+- https://github.com/nanostores/nanostores
 
 # Check some vite plugins:
 

@@ -36,6 +36,7 @@
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "import-sort-style-module": "^6.0.0",
+    "nanostores": "^0.11.4",
     "npm-check-updates": "^17.1.15",
     "pocketbase": "^0.25.2",
     "prettier": "^3.5.3",
