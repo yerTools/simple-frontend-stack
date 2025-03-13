@@ -33,7 +33,7 @@
     "prettier.singleQuote": false,
     "prettier.tabWidth": 2,
     "prettier.trailingComma": "all",
-    "prettier.useEditorConfig": true,
+    "prettier.useEditorConfig": false,
     "prettier.useTabs": false,
     "prettier.vueIndentScriptAndStyle": false,
     "prettier.withNodeModules": false

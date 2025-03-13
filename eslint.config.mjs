@@ -20,7 +20,12 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ["node_modules/*", "dist/*", "eslint.config.mjs"],
+    ignores: [
+      "node_modules/*",
+      "dist/*",
+      "eslint.config.mjs",
+      "prettier.config.js",
+    ],
   },
   ...compat.extends("plugin:@typescript-eslint/recommended", "prettier"),
   {
