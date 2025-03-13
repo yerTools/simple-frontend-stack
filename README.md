@@ -14,6 +14,7 @@
 - https://kobalte.dev
 - https://lucide.dev/
 - https://github.com/solidjs/solid-router
+- https://github.com/solidjs-community/solid-ag-grid
 
 # Check some vite plugins:
 
