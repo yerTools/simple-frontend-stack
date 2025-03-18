@@ -16,6 +16,7 @@
 - https://github.com/solidjs/solid-router
 - https://github.com/solidjs-community/solid-ag-grid
 - https://stately.ai/docs/xstate-store
+- https://github.com/unplugin/unplugin-icons ( https://iconify.design/ )
 
 # Check some vite plugins:
 

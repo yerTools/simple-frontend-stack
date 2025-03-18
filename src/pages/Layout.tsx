@@ -1,8 +1,17 @@
+import AnarchyIcon from "~icons/game-icons/anarchy";
+import FistIcon from "~icons/game-icons/fist";
+import HammerSickleIcon from "~icons/game-icons/hammer-sickle";
+import MenuIcon from "~icons/line-md/close-to-menu-alt-transition";
+import GitHubIcon from "~icons/line-md/github-loop";
+import XIcon from "~icons/line-md/menu-to-close-transition";
+import SunIcon from "~icons/line-md/moon-filled-to-sunny-filled-loop-transition";
+import MoonIcon from "~icons/line-md/sunny-filled-loop-to-moon-filled-loop-transition";
+import FlagIcon from "~icons/solar/flag-bold-duotone";
+
 import { For, JSX, createSignal, onMount } from "solid-js";
 
 import { Collapsible } from "@kobalte/core";
 import { A, RouteSectionProps, useLocation } from "@solidjs/router";
-import { Code, Menu, Moon, Sun, X } from "lucide-solid";
 
 import { pageList } from "..";
 
@@ -30,6 +39,7 @@ const NavigationLinks = (props: {
                   end={true}
                   onClick={props.onClick}
                 >
+                  {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
                   {page.title}
                 </A>
               </li>
@@ -45,6 +55,7 @@ const NavigationLinks = (props: {
                 }`}
                 onClick={props.onClick}
               >
+                {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
                 {page.title}
               </A>
             );
@@ -54,6 +65,7 @@ const NavigationLinks = (props: {
                 href={page.path}
                 class="link link-hover"
               >
+                {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
                 {page.title}
               </A>
             );
@@ -130,8 +142,8 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             }
           >
             {isDarkMode() ?
-              <Sun class="h-5 w-5" />
-            : <Moon class="h-5 w-5" />}
+              <SunIcon class="h-5 w-5" />
+            : <MoonIcon class="h-5 w-5" />}
           </button>
 
           {/* GitHub Link */}
@@ -142,7 +154,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             class="btn btn-ghost btn-circle"
             aria-label="GitHub repository"
           >
-            <Code class="h-5 w-5" />
+            <GitHubIcon class="h-5 w-5" />
           </a>
 
           {/* Mobile Menu Button */}
@@ -152,8 +164,8 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             aria-label={isMobileMenuOpen() ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen() ?
-              <X class="h-5 w-5" />
-            : <Menu class="h-5 w-5" />}
+              <XIcon class="h-5 w-5" />
+            : <MenuIcon class="h-5 w-5" />}
           </button>
         </div>
       </div>
@@ -181,9 +193,14 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
       {/* Footer */}
       <footer class="footer footer-center bg-base-300 text-base-content p-6">
         <div class="mt-4">
-          <p>
-            <span class="font-bold">Ⓐ {new Date().getFullYear()}</span> - Free
-            and open-source software - with free as in freedom! 🚩✊
+          <p class="text-lg">
+            <span class="font-bold">
+              <AnarchyIcon class="inline" /> {new Date().getFullYear()}{" "}
+              <HammerSickleIcon class="inline" />
+            </span>{" "}
+            - Free and open-source software - with free as in freedom!{" "}
+            <FlagIcon class="inline text-[#ff0000]" />
+            <FistIcon class="inline" />
           </p>
         </div>
       </footer>

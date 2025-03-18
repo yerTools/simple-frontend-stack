@@ -145,6 +145,9 @@ export default [
           "ignoreRestSiblings": true,
         },
       ],
+      "import/extensions": ["error", {
+        "": "never",
+      }],
     },
   },
 ];

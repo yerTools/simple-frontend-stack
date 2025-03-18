@@ -1,6 +1,9 @@
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
-import { defineConfig } from "vite";
+import { Options } from "unplugin-icons/types";
+import Icons from "unplugin-icons/vite";
+import LightningCSS from "unplugin-lightningcss/vite";
+import { Plugin, defineConfig } from "vite";
 import lqip from "vite-plugin-lqip";
 import solidPlugin from "vite-plugin-solid";
 import webfontDownload from "vite-plugin-webfont-dl";
@@ -16,6 +19,10 @@ export default defineConfig({
     solidPlugin(),
     tailwindcss(),
     lqip(),
+    (Icons as (options: Options) => Plugin)({
+      compiler: "solid",
+    }),
+    LightningCSS(),
   ],
   server: {
     port: 8161,

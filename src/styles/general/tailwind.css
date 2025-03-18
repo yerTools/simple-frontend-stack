@@ -11,3 +11,5 @@
   root: ":root";
   logs: false;
 }
+
+@plugin "@iconify/tailwind4";

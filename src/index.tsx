@@ -1,7 +1,15 @@
 /* @refresh reload */
 import "./styles/general.css";
 
-import { Component, For } from "solid-js";
+import WorldIcon from "~icons/bx/world";
+import SolidIcon from "~icons/catppuccin/solid";
+import IconifyIcon from "~icons/line-md/iconify2-static-twotone";
+import DaisyUiIcon from "~icons/logos/daisyui-icon";
+import LucideIcon from "~icons/simple-icons/lucide";
+import CodeIcon from "~icons/tabler/code";
+import TailwindIcon from "~icons/teenyicons/tailwind-outline";
+
+import { Component, ComponentProps, For, JSX } from "solid-js";
 
 import { render } from "solid-js/web";
 
@@ -15,6 +23,7 @@ const root = document.body;
 interface PageDefinition {
   title: string;
   component?: Component<RouteSectionProps<unknown>>;
+  icon?: (props: ComponentProps<"svg">) => JSX.Element;
 }
 
 export type PageTree = {
@@ -27,24 +36,35 @@ export const pageTree = {
   "": {
     title: "Hello World!",
     component: Index,
+    icon: WorldIcon,
   },
   solid: {
     title: "SolidJS",
+    icon: SolidIcon,
   },
   tailwind: {
     title: "TailwindCSS",
+    icon: TailwindIcon,
   },
   daisyui: {
     title: "DaisyUI",
+    icon: DaisyUiIcon,
   },
   kobalte: {
     title: "Kobalte",
+    icon: CodeIcon,
   },
   lucide: {
     title: "Lucide Icons",
+    icon: LucideIcon,
+  },
+  iconify: {
+    title: "Iconify",
+    icon: IconifyIcon,
   },
   router: {
     title: "Solid Router",
+    icon: SolidIcon,
   },
 } as const;
 
