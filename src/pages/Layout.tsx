@@ -8,7 +8,7 @@ import SunIcon from "~icons/line-md/moon-filled-to-sunny-filled-loop-transition"
 import MoonIcon from "~icons/line-md/sunny-filled-loop-to-moon-filled-loop-transition";
 import FlagIcon from "~icons/solar/flag-bold-duotone";
 
-import { For, JSX, createSignal, onMount } from "solid-js";
+import { For, JSX, createSignal } from "solid-js";
 
 import { Collapsible } from "@kobalte/core";
 import { A, RouteSectionProps, useLocation } from "@solidjs/router";
@@ -83,23 +83,23 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
 
-  onMount(() => {
+  (() => {
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
-    const lastPrefersDark = (() => {
-      switch (localStorage.getItem("prefersDark")) {
+    const [lastPrefersDark, setPrefersDark] = (() => {
+      switch (localStorage.getItem("prefers-dark")) {
         case "true":
-          return true;
+          return [true, false];
         case "false":
-          return false;
+          return [false, false];
         default:
-          return prefersDark;
+          return [prefersDark, true];
       }
     })();
 
-    if (lastPrefersDark !== prefersDark) {
-      localStorage.setItem("prefersDark", `${prefersDark}`);
+    if (lastPrefersDark !== prefersDark || setPrefersDark) {
+      localStorage.setItem("prefers-dark", `${prefersDark}`);
       localStorage.removeItem("theme");
     }
 
@@ -108,8 +108,11 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
     if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
       setIsDarkMode(true);
       document.body.setAttribute("data-theme", "dark");
+    } else {
+      setIsDarkMode(false);
+      document.body.setAttribute("data-theme", "light");
     }
-  });
+  })();
 
   const toggleTheme = () => {
     const newMode = !isDarkMode();
