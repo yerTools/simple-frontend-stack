@@ -84,10 +84,26 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
 
   onMount(() => {
-    const savedTheme = localStorage.getItem("theme") ?? "";
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
+    const lastPrefersDark = (() => {
+      switch (localStorage.getItem("prefersDark")) {
+        case "true":
+          return true;
+        case "false":
+          return false;
+        default:
+          return prefersDark;
+      }
+    })();
+
+    if (lastPrefersDark !== prefersDark) {
+      localStorage.setItem("prefersDark", `${prefersDark}`);
+      localStorage.removeItem("theme");
+    }
+
+    const savedTheme = localStorage.getItem("theme") ?? "";
 
     if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
       setIsDarkMode(true);
