@@ -44,6 +44,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-solid": "^0.14.5",
     "globals": "^16.0.0",
+    "highlight.js": "^11.11.1",
     "husky": "^9.1.7",
     "import-sort-style-module": "^6.0.0",
     "lucide-solid": "^0.483.0",
