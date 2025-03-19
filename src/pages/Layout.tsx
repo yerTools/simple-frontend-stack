@@ -8,12 +8,23 @@ import SunIcon from "~icons/line-md/moon-filled-to-sunny-filled-loop-transition"
 import MoonIcon from "~icons/line-md/sunny-filled-loop-to-moon-filled-loop-transition";
 import FlagIcon from "~icons/solar/flag-bold-duotone";
 
-import { For, JSX, createSignal } from "solid-js";
+import { FlowComponent, For, JSX, createEffect, createSignal } from "solid-js";
 
 import { Collapsible } from "@kobalte/core";
 import { A, RouteSectionProps, useLocation } from "@solidjs/router";
+import { Observer } from "tailwindcss-intersect";
 
 import { pageList } from "..";
+
+export const ObserverProvider: FlowComponent = (props: {
+  children: JSX.Element;
+}) => {
+  createEffect(() => {
+    Observer.start();
+  });
+
+  return <>{props.children}</>;
+};
 
 const NavigationLinks = (props: {
   kind: "desktop" | "mobile" | "footer";
