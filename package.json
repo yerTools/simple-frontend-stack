@@ -53,6 +53,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "solid-ag-grid": "^0.0.230",
+    "solid-markdown": "^2.0.14",
     "swapy": "^1.0.5",
     "tailwindcss": "^4.0.14",
     "tailwindcss-intersect": "^2.2.0",

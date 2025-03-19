@@ -17,6 +17,7 @@
 - https://github.com/solidjs-community/solid-ag-grid
 - https://stately.ai/docs/xstate-store
 - https://github.com/unplugin/unplugin-icons ( https://iconify.design/ )
+- https://github.com/andi23rosca/solid-markdown
 
 # Check some vite plugins:
 

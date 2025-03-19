@@ -12,6 +12,7 @@ import {
 import PocketBase from "pocketbase";
 
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
+import { SolidMarkdown } from "solid-markdown";
 import { createSwapy } from "swapy";
 import { Observer } from "tailwindcss-intersect";
 
@@ -67,6 +68,7 @@ const Index: Component = () => {
           {count()}
         </span>
       </span>
+      <SolidMarkdown>{`Hallo **Welt**!`}</SolidMarkdown>
       <div
         class="parent"
         ref={parent}
