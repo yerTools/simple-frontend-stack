@@ -4,10 +4,10 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "bun x vite",
-    "dev": "bun x vite --force",
+    "start": "bun x vite build & bun x vite preview --port 8161",
+    "dev": "bun x vite build --watch --minify=false --emptyOutDir false & bun x vite preview --port 8161",
     "build": "bun x vite build",
-    "serve": "bun x vite preview",
+    "serve": "bun x vite preview --port 8161",
     "update": "bun x npm-check-updates",
     "upgrade": "bun x npm-check-updates --upgrade && bun install",
     "type-check": "bun x tsc --pretty --noEmit",
