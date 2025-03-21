@@ -5,7 +5,7 @@ import GoIcon from "~icons/devicon/go";
 import SolidIcon from "~icons/devicon/solidjs";
 import TailwindIcon from "~icons/devicon/tailwindcss";
 import GithubIcon from "~icons/line-md/github-loop";
-import IconifyIcon from "~icons/line-md/iconify2-static-twotone";
+import IconifyIcon from "~icons/line-md/iconify2-static";
 import BunIcon from "~icons/logos/bun";
 import DaisyUiIcon from "~icons/logos/daisyui-icon";
 import ViteIcon from "~icons/logos/vitejs";
