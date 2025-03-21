@@ -10,11 +10,46 @@ import FlagIcon from "~icons/solar/flag-bold-duotone";
 
 import { FlowComponent, For, JSX, createEffect, createSignal } from "solid-js";
 
+import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { Collapsible } from "@kobalte/core";
 import { A, RouteSectionProps, useLocation } from "@solidjs/router";
 import { Observer } from "tailwindcss-intersect";
 
 import { pageList } from "..";
+
+const getBreadcrumbs = () => {
+  const location = useLocation();
+
+  const path = location.pathname;
+  if (path === "/") return null;
+
+  const segments = path.split("/").filter(Boolean);
+  if (segments.length === 0) return null;
+
+  return (
+    <div class="breadcrumbs px-4 py-2 text-sm">
+      <ul>
+        <li>
+          <A href="/">Home</A>
+        </li>
+        <For each={segments}>
+          {(segment, index) => {
+            const url = () => `/${segments.slice(0, index() + 1).join("/")}`;
+
+            const pageTitle = () =>
+              pageList.find((p) => p.path === url())?.title ?? segment;
+
+            return (
+              <li>
+                <A href={url()}>{pageTitle()}</A>
+              </li>
+            );
+          }}
+        </For>
+      </ul>
+    </div>
+  );
+};
 
 export const ObserverProvider: FlowComponent = (props: {
   children: JSX.Element;
@@ -46,11 +81,19 @@ const NavigationLinks = (props: {
                 <A
                   href={page.path}
                   activeClass="bg-base-200 font-medium"
-                  class="rounded-lg transition-colors duration-200"
+                  class={
+                    "hover:text-primary group rounded-lg transition-all duration-200 hover:scale-105"
+                  }
                   end={true}
                   onClick={props.onClick}
                 >
-                  {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
+                  {page.icon && (
+                    <page.icon
+                      class={
+                        "mr-1 inline h-5 w-5 transition-transform duration-200 group-hover:-rotate-12"
+                      }
+                    />
+                  )}
                   {page.title}
                 </A>
               </li>
@@ -93,6 +136,8 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
     localStorage.getItem("theme") === "dark",
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
+
+  const [mainRef] = createAutoAnimate();
 
   (() => {
     const prefersDark = window.matchMedia(
@@ -216,7 +261,13 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
         </Collapsible.Content>
       </Collapsible.Root>
 
-      <main class="container mx-auto max-w-5xl flex-grow px-4 py-8">
+      {/* Add breadcrumbs */}
+      {getBreadcrumbs()}
+
+      <main
+        ref={mainRef}
+        class="container mx-auto max-w-5xl flex-grow px-4 py-8"
+      >
         {props.children}
       </main>
 

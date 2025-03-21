@@ -2,12 +2,12 @@
 import "./styles/general.css";
 
 import WorldIcon from "~icons/bx/world";
-import SolidIcon from "~icons/catppuccin/solid";
+import SolidIcon from "~icons/devicon/solidjs";
+import TailwindIcon from "~icons/devicon/tailwindcss";
 import IconifyIcon from "~icons/line-md/iconify2-static";
 import DaisyUiIcon from "~icons/logos/daisyui-icon";
 import LucideIcon from "~icons/simple-icons/lucide";
 import CodeIcon from "~icons/tabler/code";
-import TailwindIcon from "~icons/teenyicons/tailwind-outline";
 
 import { Component, ComponentProps, For, JSX } from "solid-js";
 
