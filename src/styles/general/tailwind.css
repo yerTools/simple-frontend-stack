@@ -7,7 +7,14 @@
 @plugin "daisyui" {
   themes:
     light --default,
-    dark --prefersdark;
+    dark --prefersdark,
+    cupcake,
+    synthwave,
+    retro,
+    cyberpunk,
+    nord,
+    pastel,
+    forest;
   root: ":root";
   logs: false;
 }
