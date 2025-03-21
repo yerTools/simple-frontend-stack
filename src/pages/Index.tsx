@@ -4,6 +4,8 @@ import FontColorIcon from "~icons/bx/font-color";
 import GoIcon from "~icons/devicon/go";
 import SolidIcon from "~icons/devicon/solidjs";
 import TailwindIcon from "~icons/devicon/tailwindcss";
+import CloseSmallIcon from "~icons/line-md/close-small";
+import ConfirmCircleFilledIcon from "~icons/line-md/confirm-circle-filled";
 import GithubIcon from "~icons/line-md/github-loop";
 import IconifyIcon from "~icons/line-md/iconify2-static";
 import BunIcon from "~icons/logos/bun";
@@ -16,8 +18,9 @@ import RocketIcon from "~icons/tabler/rocket";
 import SpeedIcon from "~icons/tabler/speedboat";
 import TerminalIcon from "~icons/tabler/terminal";
 
-import { Component, For, JSX, createSignal } from "solid-js";
+import { Component, For, JSX, Show, createSignal } from "solid-js";
 
+import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import "prismjs";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
@@ -155,26 +158,56 @@ const codeExamples = [
     description: "Add animations with minimal effort",
     codeComponent: () => {
       return (
-        <Highlight language={Language.HTML}>
-          {`<div class="intersect:motion-preset-slide-in-from-right">
-    This content slides in from the right when visible
-  </div>
+        <Highlight language={Language.REACT_TSX}>
+          {`import { For, JSX, createSignal } from "solid-js";
 
-  <div class="intersect:motion-preset-expand intersect-once">
-    This content expands when visible (once)
-  </div>`}
+  import { createAutoAnimate } from "@formkit/auto-animate/solid";
+
+  const AutoAnimateExample: Comment = (): JSX.Element => {
+    const [items, setItems] = createSignal(["Item 1", "Item 2"]);
+
+    const [autoAnimateParent] = createAutoAnimate(/* optional config */);
+
+    return (
+      <div class="space-y-4">
+        <ul
+          class="menu bg-base-200 rounded-box w-full"
+          ref={autoAnimateParent}
+        >
+          <For each={items()}>
+            {(item) => (
+              <li>
+                <a>{item}</a>
+              </li>
+            )}
+          </For>
+        </ul>
+        <button
+          class="btn btn-secondary"
+          onClick={() => setItems([...items(), \`Item \${items().length + 1}\`])}
+        >
+          Add Item
+        </button>
+      </div>
+    );
+  };`}
         </Highlight>
       );
     },
     component: () => {
       const [items, setItems] = createSignal(["Item 1", "Item 2"]);
 
+      const [autoAnimateParent] = createAutoAnimate(/* optional config */);
+
       return (
         <div class="space-y-4">
-          <ul class="menu bg-base-200 rounded-box w-full">
+          <ul
+            class="menu bg-base-200 rounded-box w-full"
+            ref={autoAnimateParent}
+          >
             <For each={items()}>
               {(item) => (
-                <li class="intersect:motion-preset-slide-in-from-right intersect-once">
+                <li>
                   <a>{item}</a>
                 </li>
               )}
@@ -235,11 +268,34 @@ const ThemeShowcase: Component = (): JSX.Element => {
     ] as const
   ).toSorted();
 
+  const randomPercentage = (interval = 250): (() => number) => {
+    const [get, set] = createSignal(101 * Math.random());
+
+    setInterval(
+      () => set((get() + Math.pow(Math.random(), 2) * 6) % 101),
+      interval,
+    );
+
+    const value: () => number = () => Math.floor(get());
+
+    return value;
+  };
+
+  const percentageBar = randomPercentage();
+  const percentageCircle = randomPercentage();
+  const percentageCountdown = randomPercentage(500);
+
   const [previewTheme, setPreviewTheme] =
     createSignal<(typeof themes)[number]>("cupcake");
 
+  // Add a state for modal visibility
+  const [modalOpen, setModalOpen] = createSignal(false);
+
+  // Add a state for alert display
+  const [showAlert, setShowAlert] = createSignal(false);
+
   const colorSquareClass =
-    "border-base-300 card card-border card-xs h-12 w-12 items-center justify-center p-4";
+    "border-base-300 card card-border card-xs h-12 w-12 items-center justify-center p-4 text-2xl";
 
   return (
     <section class="container mx-auto px-4">
@@ -266,13 +322,32 @@ const ThemeShowcase: Component = (): JSX.Element => {
       </div>
 
       <div
-        class="card bg-base-100 text-base-content mx-auto max-w-2xl shadow-xl"
+        class={`card bg-base-100 text-base-content mx-auto max-w-4xl shadow-xl transition-all duration-300`}
         data-theme={previewTheme()}
       >
         <div class="card-body">
-          <h3 class="card-title">
-            Theme: {previewTheme()[0].toUpperCase() + previewTheme().slice(1)}
-          </h3>
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h3 class="card-title text-2xl">
+              Theme: {previewTheme()[0].toUpperCase() + previewTheme().slice(1)}
+            </h3>
+          </div>
+
+          {/* Alert that can be dismissed */}
+          <Show when={showAlert()}>
+            <div class="alert alert-success mb-4">
+              <ConfirmCircleFilledIcon class="h-6 w-6 shrink-0 stroke-current" />
+              <span>Theme changed successfully!</span>
+              <button
+                class="btn btn-sm"
+                onClick={() => setShowAlert(false)}
+              >
+                Dismiss
+              </button>
+            </div>
+          </Show>
+
+          {/* Button Showcase */}
+          <div class="divider">Buttons & Controls</div>
           <div class="my-4 flex flex-wrap gap-2">
             <button class="btn btn-primary">Primary</button>
             <button class="btn btn-secondary">Secondary</button>
@@ -281,124 +356,420 @@ const ThemeShowcase: Component = (): JSX.Element => {
             <button class="btn btn-success">Success</button>
             <button class="btn btn-warning">Warning</button>
             <button class="btn btn-error">Error</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-link">Link</button>
           </div>
-          <div class="form-control">
-            <label class="label me-4">
-              <span class="label-text">Example Input</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered"
-            />
+
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Button Variants */}
+            <div class="space-y-2">
+              <h4 class="font-bold">Button Variants</h4>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-primary btn-sm">Small</button>
+                <button class="btn btn-primary">Normal</button>
+                <button class="btn btn-primary btn-lg">Large</button>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button class="btn btn-outline btn-primary">Outline</button>
+                <button class="btn btn-primary btn-circle">
+                  <CloseSmallIcon class="h-6 w-6" />
+                </button>
+                <button
+                  class="btn btn-primary"
+                  onClick={() => {
+                    setShowAlert(true);
+                    setTimeout(() => setShowAlert(false), 3000);
+                  }}
+                >
+                  Show Alert
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <div class="join">
+                  <button class="btn join-item">Left</button>
+                  <button class="btn join-item btn-active">Center</button>
+                  <button class="btn join-item">Right</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Form Controls */}
+            <div class="space-y-2">
+              <h4 class="font-bold">Form Elements</h4>
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <span class="label-text">Example Input</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  class="input input-bordered w-full max-w-xs"
+                />
+              </div>
+
+              <div class="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                  checked
+                />
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-secondary"
+                />
+                <input
+                  type="radio"
+                  name="radio-1"
+                  class="radio radio-primary"
+                  checked
+                />
+                <input
+                  type="radio"
+                  name="radio-1"
+                  class="radio radio-secondary"
+                />
+              </div>
+
+              <div class="rating">
+                <input
+                  type="radio"
+                  name="rating-2"
+                  class="mask mask-star-2 bg-orange-400"
+                />
+                <input
+                  type="radio"
+                  name="rating-2"
+                  class="mask mask-star-2 bg-orange-400"
+                  checked
+                />
+                <input
+                  type="radio"
+                  name="rating-2"
+                  class="mask mask-star-2 bg-orange-400"
+                />
+                <input
+                  type="radio"
+                  name="rating-2"
+                  class="mask mask-star-2 bg-orange-400"
+                />
+                <input
+                  type="radio"
+                  name="rating-2"
+                  class="mask mask-star-2 bg-orange-400"
+                />
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span>Range</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  class="range range-primary range-sm w-1/2"
+                />
+              </div>
+            </div>
           </div>
-          <div class="mt-4 flex justify-between">
-            <div class="badge">Badge</div>
-            <progress
-              class="progress progress-primary w-56"
-              value="70"
-              max="100"
-            />
+
+          {/* Data Display */}
+          <div class="divider">Data Display</div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <div class="stats shadow">
+                <div class="stat">
+                  <div class="stat-title">Downloads</div>
+                  <div class="stat-value">31K</div>
+                  <div class="stat-desc">Jan 1st - Feb 1st</div>
+                </div>
+              </div>
+
+              <div class="mt-4 flex gap-2">
+                <div class="badge">Default</div>
+                <div class="badge badge-primary">Primary</div>
+                <div class="badge badge-secondary">Secondary</div>
+                <div class="badge badge-accent">Accent</div>
+              </div>
+
+              <progress
+                class="progress progress-primary mt-4 w-full"
+                value={percentageBar()}
+                max="100"
+              />
+
+              <div class="stats bg-base-100 w-full overflow-hidden">
+                <div class="stat">
+                  <div class="stat-figure" />
+                  <div class="stat-title">Loading</div>{" "}
+                  <div class="stat-value">
+                    <span class="countdown countdown-500 font-mono text-6xl">
+                      <span
+                        aria-live="polite"
+                        aria-label={`${percentageCountdown()}`}
+                        {...{
+                          style: `--value:${percentageCountdown()};`,
+                        }}
+                      >
+                        {percentageCountdown()}
+                      </span>
+                    </span>
+                    <span class="text-sm">/100</span>
+                  </div>{" "}
+                  <div class="stat-desc flex items-center gap-1" />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div
+                class="radial-progress"
+                {...{ style: `--value:${percentageCircle()};` }}
+              >
+                {percentageCircle()}%
+              </div>
+
+              <div class="mt-4 flex gap-2">
+                <div class="skeleton h-32 w-full" />
+              </div>
+
+              <button
+                class="btn btn-primary mt-4"
+                onClick={() => setModalOpen(true)}
+              >
+                Open Modal
+              </button>
+            </div>
           </div>
-          <div class="grid w-64 grid-cols-4">
+
+          {/* Color Palette */}
+          <div class="divider">Color Palette</div>
+          <div class="grid w-full grid-cols-4 gap-2 md:grid-cols-8">
             <h4 class="col-span-2">Base:</h4>
-            <h4 class="col-span-2" />
-            <div
-              class={`bg-base-100 text-base-content ${colorSquareClass} text-lg`}
-            >
-              100
+            <h4 class="col-span-2">Primary/Secondary:</h4>
+            <h4 class="col-span-2">Accent/Neutral:</h4>
+            <h4 class="col-span-2">State Colors:</h4>
+
+            <div class={`bg-base-100 text-base-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-base-200 text-base-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-primary text-primary-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
             </div>
             <div
-              class={`bg-base-200 text-base-content ${colorSquareClass} text-lg`}
-            >
-              200
-            </div>
-            <div
-              class={`bg-base-300 text-base-content ${colorSquareClass} text-lg`}
-            >
-              300
-            </div>
-            <div
-              class={`bg-base-100 text-base-content ${colorSquareClass} text-3xl`}
+              class={`bg-secondary text-secondary-content ${colorSquareClass}`}
             >
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <h4 class="col-span-2">Primary:</h4>
-            <h4 class="col-span-2">Secondary:</h4>
-            <div class={`bg-primary ${colorSquareClass}`} />
+            <div class={`bg-accent text-accent-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-neutral text-neutral-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-info text-info-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-success text-success-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+
+            <div class={`bg-base-300 text-base-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
+            <div class={`bg-base-content ${colorSquareClass}`}>
+              <span>
+                <FontColorIcon />
+              </span>
+            </div>
             <div
-              class={`bg-primary text-primary-content ${colorSquareClass} text-3xl`}
+              class={`bg-primary-focus text-primary-content ${colorSquareClass}`}
             >
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <div class={`bg-secondary ${colorSquareClass}`} />
             <div
-              class={`bg-secondary text-secondary-content ${colorSquareClass} text-3xl`}
+              class={`bg-secondary-focus text-secondary-content ${colorSquareClass}`}
             >
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <h4 class="col-span-2">Accent:</h4>
-            <h4 class="col-span-2">Neutral:</h4>
-            <div class={`bg-accent ${colorSquareClass}`} />
             <div
-              class={`bg-accent text-accent-content ${colorSquareClass} text-3xl`}
+              class={`bg-accent-focus text-accent-content ${colorSquareClass}`}
             >
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <div class={`bg-neutral ${colorSquareClass}`} />
             <div
-              class={`bg-neutral text-neutral-content ${colorSquareClass} text-3xl`}
+              class={`bg-neutral-focus text-neutral-content ${colorSquareClass}`}
             >
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <h4 class="col-span-2">Info:</h4>
-            <h4 class="col-span-2">Success:</h4>
-            <div class={`bg-info ${colorSquareClass}`} />
-            <div
-              class={`bg-info text-info-content ${colorSquareClass} text-3xl`}
-            >
+            <div class={`bg-warning text-warning-content ${colorSquareClass}`}>
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <div class={`bg-success ${colorSquareClass}`} />
-            <div
-              class={`bg-success text-success-content ${colorSquareClass} text-3xl`}
-            >
+            <div class={`bg-error text-error-content ${colorSquareClass}`}>
               <span>
                 <FontColorIcon />
               </span>
             </div>
-            <h4 class="col-span-2">Warning:</h4>
-            <h4 class="col-span-2">Error:</h4>
-            <div class={`bg-warning ${colorSquareClass}`} />
-            <div
-              class={`bg-warning text-warning-content ${colorSquareClass} text-3xl`}
-            >
-              <span>
-                <FontColorIcon />
-              </span>
+          </div>
+
+          {/* Interactive Components Section */}
+          <div class="divider">Interactive Components</div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div class="space-y-4">
+              <h4 class="font-bold">Dropdown Menu</h4>
+              <div class="dropdown">
+                <label
+                  tabindex="0"
+                  class="btn m-1"
+                >
+                  Click for dropdown
+                </label>
+                <ul
+                  tabindex="0"
+                  class="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow"
+                >
+                  <li>
+                    <a>Item 1</a>
+                  </li>
+                  <li>
+                    <a>Item 2</a>
+                  </li>
+                  <li>
+                    <a>Item 3</a>
+                  </li>
+                </ul>
+              </div>
+
+              <h4 class="mt-4 font-bold">Collapse</h4>
+              <div
+                tabindex="0"
+                class="collapse-arrow border-base-300 bg-base-200 collapse border"
+              >
+                <div class="collapse-title text-xl font-medium">
+                  Click to open
+                </div>
+                <div class="collapse-content">
+                  <p>This content is hidden until clicked</p>
+                </div>
+              </div>
             </div>
-            <div class={`bg-error ${colorSquareClass}`} />
-            <div
-              class={`bg-error text-error-content ${colorSquareClass} text-3xl`}
-            >
-              <span>
-                <FontColorIcon />
-              </span>
+
+            <div class="space-y-4">
+              <h4 class="font-bold">Card with Actions</h4>
+              <div class="card bg-base-100 w-full border shadow-xl">
+                <figure>
+                  <div class="bg-primary/20 flex h-32 w-full items-center justify-center">
+                    Image placeholder
+                  </div>
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Card Title</h2>
+                  <p>Cards can contain any content and actions</p>
+                  <div class="card-actions justify-end">
+                    <button class="btn btn-primary btn-sm">Action</button>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Sample Code */}
+          <div class="divider">Customize Your Themes</div>
+          <div class="mockup-code mt-4">
+            <Highlight language={Language.CSS}>
+              {`/* https://daisyui.com/theme-generator/ */
+  @plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(98% 0 0);
+    --color-base-300: oklch(95% 0 0);
+    --color-base-content: oklch(21% 0.006 285.885);
+    --color-primary: oklch(45% 0.24 277.023);
+    --color-primary-content: oklch(93% 0.034 272.788);
+    --color-secondary: oklch(65% 0.241 354.308);
+    --color-secondary-content: oklch(94% 0.028 342.258);
+    --color-accent: oklch(77% 0.152 181.912);
+    --color-accent-content: oklch(38% 0.063 188.416);
+    --color-neutral: oklch(14% 0.005 285.823);
+    --color-neutral-content: oklch(92% 0.004 286.32);
+    --color-info: oklch(74% 0.16 232.661);
+    --color-info-content: oklch(29% 0.066 243.157);
+    --color-success: oklch(76% 0.177 163.223);
+    --color-success-content: oklch(37% 0.077 168.94);
+    --color-warning: oklch(82% 0.189 84.429);
+    --color-warning-content: oklch(41% 0.112 45.904);
+    --color-error: oklch(71% 0.194 13.428);
+    --color-error-content: oklch(27% 0.105 12.094);
+    --radius-selector: 0.5rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+  }`}
+            </Highlight>
           </div>
         </div>
+      </div>
+
+      {/* Modal Component */}
+      <div
+        class={`modal modal-bottom sm:modal-middle ${modalOpen() ? "modal-open" : ""}`}
+        data-theme={previewTheme()}
+      >
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">Modal Dialog Example</h3>
+          <p class="py-4">
+            This is a modal dialog using the current theme: {previewTheme()}
+          </p>
+          <div class="modal-action">
+            <button
+              class="btn"
+              onClick={() => setModalOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <div
+          class="modal-backdrop"
+          onClick={() => setModalOpen(false)}
+        />
       </div>
     </section>
   );
@@ -424,12 +795,6 @@ const Index: Component = (): JSX.Element => {
               using our curated stack of modern technologies.
             </p>
             <div class="intersect:motion-preset-slide-in-from-bottom intersect-once flex flex-wrap justify-center gap-4">
-              <a
-                href="#features"
-                class="btn btn-primary"
-              >
-                Explore Features
-              </a>
               <a
                 href="https://github.com/yerTools/simple-frontend-stack"
                 target="_blank"
@@ -630,13 +995,6 @@ const Index: Component = (): JSX.Element => {
                 class="btn btn-outline"
               >
                 <GithubIcon class="mr-2" /> Get Started on GitHub
-              </a>
-              <a
-                href="https://simple-frontend-stack.ltl.re"
-                target="_blank"
-                class="btn"
-              >
-                View Demo Site
               </a>
             </div>
           </div>
