@@ -109,7 +109,7 @@ Combined with TypeScript, SolidJS, and a vibrant ecosystem of libraries, you'll 
 - [XState Store](https://stately.ai/docs/xstate-store) 🔄
 - [Unplugin Icons](https://github.com/unplugin/unplugin-icons) ([Iconify](https://iconify.design/)) 🌐
 - [Solid Markdown](https://github.com/andi23rosca/solid-markdown) 📖
-- [Highlight.js](https://highlightjs.org/) 🌈
+- [Solid Highlight](https://github.com/aidanaden/solid-highlight) 🌈
 
 ### Vite Plugins 🔌
 
