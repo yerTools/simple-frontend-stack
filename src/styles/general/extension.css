@@ -1,0 +1,35 @@
+.countdown {
+  &.countdown-0 > *:before {
+    transition-duration: 0ms;
+  }
+  &.countdown-75 > *:before {
+    transition-duration: 75ms;
+  }
+  &.countdown-100 > *:before {
+    transition-duration: 100ms;
+  }
+  &.countdown-150 > *:before {
+    transition-duration: 150ms;
+  }
+  &.countdown-200 > *:before {
+    transition-duration: 200ms;
+  }
+  &.countdown-300 > *:before {
+    transition-duration: 300ms;
+  }
+  &.countdown-500 > *:before {
+    transition-duration: 500ms;
+  }
+  &.countdown-700 > *:before {
+    transition-duration: 700ms;
+  }
+  &.countdown-1000 > *:before {
+    transition-duration: 1000ms;
+  }
+  &.countdown-1500 > *:before {
+    transition-duration: 1500ms;
+  }
+  &.countdown-2000 > *:before {
+    transition-duration: 2000ms;
+  }
+}
