@@ -33,3 +33,7 @@
     transition-duration: 2000ms;
   }
 }
+
+.mockup-code > pre[class*="language-"] {
+  background-color: transparent;
+}
