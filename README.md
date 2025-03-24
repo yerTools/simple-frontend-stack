@@ -1,4 +1,7 @@
-# Simple Frontend Stack
+# Simple Frontend Stack 🌱⚡💻
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE.md)
+![CI/CD](https://github.com/yerTools/simple-frontend-stack/actions/workflows/cicd.yml/badge.svg)
 
 ## TL;DR ⚡️
 
@@ -9,14 +12,25 @@ Want to see it in action? Check out the live demo at [simple-frontend-stack.ltl.
 
 ## Table of Contents 📑
 
-- [Overview](#overview-🌟)
-- [Quick Start Guide](#quick-start-guide-🚀)
-- [Included Frameworks & Libraries](#included-frameworks--libraries-📚)
-- [Vite Plugins](#vite-plugins-🔌)
-- [Summary](#summary-🎯)
-- [License](#license-📝)
+- [Core Stack ⚙️](#core-stack-️)
+- [Overview 🌟](#overview-)
+- [Quick Start Guide 🚀](#quick-start-guide-)
+- [Included Frameworks & Libraries 📚](#included-frameworks--libraries-)
+- [Vite Plugins 🔌](#vite-plugins-)
+- [Development Workflow 🛠️](#development-workflow-️)
+- [Project Structure 📂](#project-structure-)
+- [Summary 🎯](#summary-)
+- [License 📝](#license-)
 
 ---
+
+### Core Stack ⚙️
+
+- **Frontend**: [SolidJS](https://www.solidjs.com/) 💎 - React-like simplicity, unmatched performance
+- **Styling**: [TailwindCSS](https://tailwindcss.com/) 🎨 + [DaisyUI](https://daisyui.com/) 🌼 - Utility-first beauty
+- **Backend**: [PocketBase](https://pocketbase.io/) 🗄️ - Open source backend in a single file
+- **Bundler**: [Vite](https://vitejs.dev/) ⚡ - Next generation frontend tooling
+- **Runtime**: [Bun](https://bun.sh/) 🚀 - All-in-one JavaScript runtime & toolkit
 
 ## Overview 🌟
 
@@ -91,32 +105,97 @@ Combined with TypeScript, SolidJS, and a vibrant ecosystem of libraries, you'll 
 
 ## Included Frameworks & Libraries 📚
 
-- [SolidJS](https://www.solidjs.com/) 💎
-- [TailwindCSS](https://tailwindcss.com/) 🎨
-- [DaisyUI](https://daisyui.com/) 🌼
-- [Rombo Tailwind](https://rombo.co/tailwind/) 💫
-- [Swapy](https://swapy.tahazsh.com/) 🔄
-- [Auto Animate](https://auto-animate.formkit.com/) ✨
-- [PocketBase](https://pocketbase.io/) 🗄️
-- [TailwindCSS Intersect](https://github.com/heidkaemper/tailwindcss-intersect) 🔗
-- [Nanostores](https://github.com/nanostores/nanostores) 🗃️
-- [Felte](https://github.com/pablo-abc/felte) 📝
-- [Yup](https://github.com/jquense/yup) ✅
-- [Kobalte](https://kobalte.dev) 💡
-- [Lucide](https://lucide.dev/) ✏️
-- [Solid Router](https://github.com/solidjs/solid-router) 🛣️
-- [Solid AG Grid](https://github.com/solidjs-community/solid-ag-grid) 📊
-- [XState Store](https://stately.ai/docs/xstate-store) 🔄
-- [Unplugin Icons](https://github.com/unplugin/unplugin-icons) ([Iconify](https://iconify.design/)) 🌐
-- [Solid Markdown](https://github.com/andi23rosca/solid-markdown) 📖
-- [Solid Highlight](https://github.com/aidanaden/solid-highlight) 🌈
+- [SolidJS](https://www.solidjs.com/) 💎 - Core UI framework
+- [TailwindCSS](https://tailwindcss.com/) 🎨 - Utility-first CSS framework
+- [DaisyUI](https://daisyui.com/) 🌼 - Tailwind CSS component library
+- [Rombo Tailwind](https://rombo.co/tailwind/) 💫 - Additional Tailwind utilities
+- [Swapy](https://swapy.tahazsh.com/) 🔄 - Animated component transitions
+- [Auto Animate](https://auto-animate.formkit.com/) ✨ - Animation library
+- [PocketBase](https://pocketbase.io/) 🗄️ - Backend solution
+- [TailwindCSS Intersect](https://github.com/heidkaemper/tailwindcss-intersect) 🔗 - Intersection utilities
+- [Nanostores](https://github.com/nanostores/nanostores) 🗃️ - Tiny state management
+- [Felte](https://github.com/pablo-abc/felte) 📝 - Form management
+- [Yup](https://github.com/jquense/yup) ✅ - Schema validation
+- [Kobalte](https://kobalte.dev) 💡 - Accessible UI components
+- [Lucide](https://lucide.dev/) ✏️ - SVG icon library
+- [Solid Router](https://github.com/solidjs/solid-router) 🛣️ - Routing solution
+- [Solid AG Grid](https://github.com/solidjs-community/solid-ag-grid) 📊 - Data grid component
+- [XState Store](https://stately.ai/docs/xstate-store) 🔄 - State machine management
+- [Unplugin Icons](https://github.com/unplugin/unplugin-icons) ([Iconify](https://iconify.design/)) 🌐 - Icon integration
+- [Solid Markdown](https://github.com/andi23rosca/solid-markdown) 📖 - Markdown renderer
+- [Solid Highlight](https://github.com/aidanaden/solid-highlight) 🌈 - Code highlighting
 
 ### Vite Plugins 🔌
 
-Check out these useful Vite plugins:
+Check out these useful Vite plugins included in the project:
 
-- [vite-plugin-webfont-dl](https://github.com/feat-agency/vite-plugin-webfont-dl) 🌐
-- [vite-plugin-lqip](https://github.com/drwpow/vite-plugin-lqip) 📸
+- [vite-plugin-webfont-dl](https://github.com/feat-agency/vite-plugin-webfont-dl) 🌐 - Web font downloading
+- [vite-plugin-lqip](https://github.com/drwpow/vite-plugin-lqip) 📸 - Low-quality image placeholders
+- [vite-plugin-solid](https://github.com/solidjs/vite-plugin-solid) ⚡ - SolidJS integration
+- [vite-plugin-compression](https://github.com/vbenjs/vite-plugin-compression) 📦 - Asset compression
+- [unplugin-lightningcss](https://github.com/unjs/unplugin-lightningcss) 🌩️ - CSS processing
+
+## Development Workflow 🛠️
+
+This project includes several npm scripts to streamline your development workflow:
+
+```bash
+# Start production build with preview
+bun run start
+
+# Start development server with hot reloading
+bun run dev
+
+# Build for production
+bun run build
+
+# Preview production build
+bun run serve
+
+# Check for outdated dependencies
+bun run update
+
+# Update all dependencies
+bun run upgrade
+
+# Type checking with TypeScript
+bun run type-check
+
+# Format code with Prettier
+bun run format
+
+# Check code formatting
+bun run format-check
+
+# Lint and fix code issues
+bun run lint
+
+# Check for linting issues without fixing
+bun run lint-check
+```
+
+## Project Structure 📂
+
+The project follows a simple and intuitive structure:
+```
+simple-frontend-stack/
+├── src/                  # Source code
+│   ├── images/           # Image assets
+│   ├── pages/            # Page components
+│   ├── styles/           # CSS stylesheets
+│   │   └── general/      # General styling utilities
+│   ├── types/            # TypeScript type definitions
+│   ├── index.html        # Main HTML template
+│   └── index.tsx         # Application entry point
+├── bun.lock              # Bun lockfile
+├── eslint.config.mjs     # ESLint configuration
+├── package.json          # Project dependencies
+├── prettier.config.js    # Prettier configuration
+├── tsconfig.json         # TypeScript configuration
+└── vite.config.ts        # Vite configuration
+```
+
+This organization promotes separation of concerns and makes it easy to locate specific components and files within the project.
 
 ---
 
@@ -131,3 +210,7 @@ Happy coding! 🎉
 ## License 📝
 
 This project is licensed under the [MIT License](LICENSE.md).
+
+_Code has no borders – neither should solidarity_ 🌍✊
+
+Last updated: March 24, 2025
