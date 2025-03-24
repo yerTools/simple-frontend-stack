@@ -9,13 +9,12 @@ import DaisyUiIcon from "~icons/logos/daisyui-icon";
 import LucideIcon from "~icons/simple-icons/lucide";
 import CodeIcon from "~icons/tabler/code";
 
-import { Component, ComponentProps, For, JSX } from "solid-js";
+import { Component, ComponentProps, For, JSX, lazy } from "solid-js";
 
 import { render } from "solid-js/web";
 
 import { Route, RouteSectionProps, Router } from "@solidjs/router";
 
-import Index from "./pages/Index";
 import Layout from "./pages/Layout";
 
 const root = document.body;
@@ -35,7 +34,7 @@ export type PageTree = {
 export const pageTree = {
   "": {
     title: "Hello World!",
-    component: Index,
+    component: lazy(() => import("./pages/Index")),
     icon: WorldIcon,
   },
   solid: {

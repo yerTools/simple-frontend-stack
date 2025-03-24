@@ -50,9 +50,26 @@ export default defineConfig({
 
       output: {
         //entryFileNames: "index.js",
-
-        esModule: false,
-        exports: "none",
+        manualChunks: {
+          solid: ["@solidjs/router", "solid-js"],
+          ui: [
+            "@felte/solid",
+            "@formkit/auto-animate",
+            "@kobalte/core",
+            "@kobalte/tailwindcss",
+            "@xstate/store",
+            "ag-grid-community",
+            "lucide-solid",
+            "solid-ag-grid",
+            "solid-highlight",
+            "solid-markdown",
+            "swapy",
+            "tailwindcss-intersect",
+          ],
+          core: ["nanostores", "pocketbase", "yup"],
+        },
+        esModule: true,
+        exports: "auto",
       },
     },
   },

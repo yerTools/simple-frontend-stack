@@ -7,8 +7,16 @@ import XIcon from "~icons/line-md/menu-to-close-transition";
 import SunIcon from "~icons/line-md/moon-filled-to-sunny-filled-loop-transition";
 import MoonIcon from "~icons/line-md/sunny-filled-loop-to-moon-filled-loop-transition";
 import FlagIcon from "~icons/solar/flag-bold-duotone";
+import LoadingIcon from "~icons/svg-spinners/bouncing-ball";
 
-import { FlowComponent, For, JSX, createEffect, createSignal } from "solid-js";
+import {
+  FlowComponent,
+  For,
+  JSX,
+  Suspense,
+  createEffect,
+  createSignal,
+} from "solid-js";
 
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { Collapsible } from "@kobalte/core";
@@ -268,7 +276,20 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
         ref={mainRef}
         class="container mx-auto max-w-5xl flex-grow px-4 py-8"
       >
-        {props.children}
+        <Suspense
+          fallback={
+            <div class="flex h-64 w-full items-center justify-center">
+              <div class="flex flex-col items-center">
+                <span>
+                  <LoadingIcon class="text-primary h-16 w-16" />
+                </span>
+                <p class="mt-4 text-lg font-medium">Loading content...</p>
+              </div>
+            </div>
+          }
+        >
+          {props.children}
+        </Suspense>
       </main>
 
       {/* Footer */}
