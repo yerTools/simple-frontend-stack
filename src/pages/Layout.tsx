@@ -37,7 +37,7 @@ const getBreadcrumbs = () => {
   if (segments.length === 0) return null;
 
   return (
-    <div class="breadcrumbs px-4 py-2 text-sm">
+    <div class="breadcrumbs overflow-x-auto px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
       <ul>
         <li>
           <A href="/">Home</A>
@@ -92,7 +92,7 @@ const NavigationLinks = (props: {
                   href={page.path}
                   activeClass="bg-base-200 font-medium"
                   class={
-                    "hover:text-primary group rounded-lg transition-all duration-200 hover:scale-105"
+                    "hover:text-primary group text-xs-adjust rounded-lg py-1 transition-all duration-200 hover:scale-105 sm:py-2 sm:text-sm md:text-base"
                   }
                   end={true}
                   onClick={props.onClick}
@@ -100,7 +100,7 @@ const NavigationLinks = (props: {
                   {page.icon && (
                     <page.icon
                       class={
-                        "mr-1 inline h-5 w-5 transition-transform duration-200 group-hover:-rotate-12"
+                        "mr-1 inline h-4 w-4 transition-transform duration-200 group-hover:-rotate-12 sm:h-5 sm:w-5"
                       }
                     />
                   )}
@@ -112,24 +112,28 @@ const NavigationLinks = (props: {
             return (
               <A
                 href={page.path}
-                class={`btn btn-ghost my-1 justify-start ${
+                class={`btn btn-ghost btn-xs-adjust sm:btn-sm my-1 justify-start ${
                   location.pathname === page.path ?
                     "bg-base-300 font-medium"
                   : ""
                 }`}
                 onClick={props.onClick}
               >
-                {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
-                {page.title}
+                {page.icon && (
+                  <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
+                )}
+                <span class="truncate">{page.title}</span>
               </A>
             );
           case "footer":
             return (
               <A
                 href={page.path}
-                class="link link-hover"
+                class="link link-hover text-xs-adjust sm:text-sm"
               >
-                {page.icon && <page.icon class="mr-1 inline h-5 w-5" />}
+                {page.icon && (
+                  <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
+                )}
                 {page.title}
               </A>
             );
@@ -226,15 +230,16 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
   return (
     <div class="bg-base-100 flex min-h-screen flex-col transition-colors duration-200">
       {/* Navbar */}
-      <div class="navbar bg-base-100 sticky top-0 z-10 shadow-md">
+      <div class="navbar bg-base-100 sticky top-0 z-10 min-h-12 px-2 shadow-md sm:px-4">
         <div class="navbar-start">
           <A
             href="/"
-            class="btn btn-ghost text-xl font-bold"
+            class="btn btn-ghost p-1 text-base font-bold sm:p-2 sm:text-xl"
             activeClass="text-primary"
             end={true}
           >
-            Simple Frontend Stack
+            <span class="xs:inline hidden">Simple Frontend Stack</span>
+            <span class="xs:hidden">SFS</span>
           </A>
         </div>
 
@@ -248,15 +253,15 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
         <div class="navbar-end">
           {/* Theme Toggle */}
           <button
-            class="btn btn-ghost btn-circle"
+            class="btn btn-ghost btn-circle btn-sm sm:btn-md"
             onClick={toggleTheme}
             aria-label={
               isDarkMode() ? "Switch to light mode" : "Switch to dark mode"
             }
           >
             {isDarkMode() ?
-              <SunIcon class="h-5 w-5" />
-            : <MoonIcon class="h-5 w-5" />}
+              <SunIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+            : <MoonIcon class="h-4 w-4 sm:h-5 sm:w-5" />}
           </button>
 
           {/* GitHub Link */}
@@ -264,21 +269,21 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             href="https://github.com/yerTools/simple-frontend-stack"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-ghost btn-circle"
+            class="btn btn-ghost btn-circle btn-sm sm:btn-md"
             aria-label="GitHub repository"
           >
-            <GitHubIcon class="h-5 w-5" />
+            <GitHubIcon class="h-4 w-4 sm:h-5 sm:w-5" />
           </a>
 
           {/* Mobile Menu Button */}
           <button
-            class="btn btn-ghost btn-circle lg:hidden"
+            class="btn btn-ghost btn-circle btn-sm sm:btn-md lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen())}
             aria-label={isMobileMenuOpen() ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen() ?
-              <XIcon class="h-5 w-5" />
-            : <MenuIcon class="h-5 w-5" />}
+              <XIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+            : <MenuIcon class="h-4 w-4 sm:h-5 sm:w-5" />}
           </button>
         </div>
       </div>
@@ -291,10 +296,12 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
       >
         <Collapsible.Content>
           <div class="menu bg-base-200 rounded-b-box w-full p-2 shadow-md">
-            <NavigationLinks
-              kind="mobile"
-              onClick={handleNavigation}
-            />
+            <div class="xs:grid-cols-1 grid grid-cols-2 gap-1">
+              <NavigationLinks
+                kind="mobile"
+                onClick={handleNavigation}
+              />
+            </div>
           </div>
         </Collapsible.Content>
       </Collapsible.Root>

@@ -784,13 +784,13 @@ const Index: Component = (): JSX.Element => {
   return (
     <div class="space-y-16 pb-16">
       {/* Hero Section */}
-      <section class="hero from-primary to-secondary text-primary-content bg-gradient-to-r py-20">
+      <section class="hero from-primary to-secondary text-primary-content bg-gradient-to-r py-10 sm:py-20">
         <div class="hero-content text-center">
-          <div class="max-w-3xl">
-            <h1 class="intersect:motion-preset-slide-in-from-left intersect-once mb-8 text-5xl font-bold">
+          <div class="max-w-3xl px-2">
+            <h1 class="intersect:motion-preset-slide-in-from-left intersect-once mb-4 text-3xl font-bold sm:mb-8 sm:text-5xl">
               The Ultimate Frontend Stack
             </h1>
-            <p class="intersect:motion-preset-slide-in-from-right intersect-once mb-8 text-xl">
+            <p class="intersect:motion-preset-slide-in-from-right intersect-once mb-4 text-base sm:mb-8 sm:text-xl">
               Build beautiful, reactive web applications with lightning speed
               using our curated stack of modern technologies.
             </p>
@@ -798,7 +798,7 @@ const Index: Component = (): JSX.Element => {
               <a
                 href="https://github.com/yerTools/simple-frontend-stack"
                 target="_blank"
-                class="btn btn-outline backdrop-blur-sm"
+                class="btn btn-outline btn-sm sm:btn-md backdrop-blur-sm"
               >
                 <GithubIcon class="mr-2" /> View on GitHub
               </a>
@@ -820,17 +820,21 @@ const Index: Component = (): JSX.Element => {
           experience, and beautiful UIs
         </p>
 
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="xs:gap-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <ObserverProvider>
             <For each={features}>
               {(feature) => (
                 <div class="card bg-base-200 intersect:motion-preset-expand intersect-once transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-                  <figure class="pt-6">
-                    <feature.icon class="h-16 w-16" />
+                  <figure class="pt-4 sm:pt-6">
+                    <feature.icon class="h-12 w-12 sm:h-16 sm:w-16" />
                   </figure>
-                  <div class="card-body">
-                    <h3 class="card-title justify-center">{feature.title}</h3>
-                    <p class="text-center">{feature.description}</p>
+                  <div class="card-body p-4 sm:p-6">
+                    <h3 class="card-title justify-center text-sm sm:text-base md:text-lg">
+                      {feature.title}
+                    </h3>
+                    <p class="text-center text-xs sm:text-sm">
+                      {feature.description}
+                    </p>
                   </div>
                 </div>
               )}

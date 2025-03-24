@@ -2,3 +2,57 @@
 @import "./general/tailwind.css";
 @import "./general/theme.css";
 @import "./general/extension.css";
+
+/* Mobile optimization utility classes */
+.xs\:hidden {
+  @media (min-width: 475px) {
+    display: none;
+  }
+}
+
+.hidden.xs\:inline {
+  display: none;
+  @media (min-width: 475px) {
+    display: inline;
+  }
+}
+
+/* Responsive font sizes for small devices */
+@media (max-width: 374px) {
+  .text-xs-adjust {
+    font-size: 0.75rem;
+  }
+
+  .btn-xs-adjust {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    height: auto;
+    min-height: 2rem;
+  }
+
+  .hero-content {
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 640px) {
+  .btn,
+  .btn-sm {
+    min-height: 2.5rem;
+  }
+
+  .menu-item,
+  .btn-ghost {
+    touch-action: manipulation;
+  }
+}
