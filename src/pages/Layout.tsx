@@ -147,7 +147,9 @@ const NavigationLinks = (props: {
 
 const Layout = (props: RouteSectionProps): JSX.Element => {
   const [isDarkMode, setIsDarkMode] = createSignal(
-    localStorage.getItem("theme") === "dark",
+    localStorage.getItem("theme") === "solidarity-dark" ||
+      (localStorage.getItem("theme") !== "solidarity-light" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches),
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
   const [showElevator, setShowElevator] = createSignal(false);
@@ -176,19 +178,19 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
 
     const savedTheme = localStorage.getItem("theme") ?? "";
 
-    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+    if (savedTheme === "solidarity-dark" || (!savedTheme && prefersDark)) {
       setIsDarkMode(true);
-      document.body.setAttribute("data-theme", "dark");
+      document.body.setAttribute("data-theme", "solidarity-dark");
     } else {
       setIsDarkMode(false);
-      document.body.setAttribute("data-theme", "light");
+      document.body.setAttribute("data-theme", "solidarity-light");
     }
   })();
 
   const toggleTheme = () => {
     const newMode = !isDarkMode();
     setIsDarkMode(newMode);
-    const theme = newMode ? "dark" : "light";
+    const theme = newMode ? "solidarity-dark" : "solidarity-light";
     document.body.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   };

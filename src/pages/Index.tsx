@@ -258,6 +258,8 @@ const ThemeShowcase: Component = (): JSX.Element => {
     [
       "light",
       "dark",
+      "solidarity-light",
+      "solidarity-dark",
       "cupcake",
       "synthwave",
       "retro",

@@ -11,23 +11,24 @@
 }
 
 /* https://daisyui.com/theme-generator/ */
+/* Solidarity Light Theme - inspired by left-wing and communist movements */
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "solidarity-light";
   default: true;
   prefersdark: false;
   color-scheme: "light";
-  --color-base-100: oklch(100% 0 0);
-  --color-base-200: oklch(98% 0 0);
-  --color-base-300: oklch(95% 0 0);
-  --color-base-content: oklch(21% 0.006 285.885);
-  --color-primary: oklch(45% 0.24 277.023);
-  --color-primary-content: oklch(93% 0.034 272.788);
-  --color-secondary: oklch(65% 0.241 354.308);
-  --color-secondary-content: oklch(94% 0.028 342.258);
-  --color-accent: oklch(77% 0.152 181.912);
-  --color-accent-content: oklch(38% 0.063 188.416);
-  --color-neutral: oklch(14% 0.005 285.823);
-  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-base-100: oklch(99% 0.01 60);
+  --color-base-200: oklch(96% 0.02 60);
+  --color-base-300: oklch(93% 0.03 60);
+  --color-base-content: oklch(20% 0.01 60);
+  --color-primary: oklch(55% 0.24 25.023);
+  --color-primary-content: oklch(98% 0.005 60);
+  --color-secondary: oklch(45% 0.18 35.308);
+  --color-secondary-content: oklch(98% 0.005 60);
+  --color-accent: oklch(65% 0.22 110.912);
+  --color-accent-content: oklch(20% 0.01 60);
+  --color-neutral: oklch(25% 0.025 25.823);
+  --color-neutral-content: oklch(98% 0.005 60);
   --color-info: oklch(74% 0.16 232.661);
   --color-info-content: oklch(29% 0.066 243.157);
   --color-success: oklch(76% 0.177 163.223);
@@ -47,31 +48,32 @@
 }
 
 /* https://daisyui.com/theme-generator/ */
+/* Solidarity Dark Theme - for left-wing, communist, and activist websites */
 @plugin "daisyui/theme" {
-  name: "dark";
+  name: "solidarity-dark";
   default: false;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-100: oklch(25.33% 0.016 252.42);
-  --color-base-200: oklch(23.26% 0.014 253.1);
-  --color-base-300: oklch(21.15% 0.012 254.09);
-  --color-base-content: oklch(97.807% 0.029 256.847);
-  --color-primary: oklch(58% 0.233 277.117);
-  --color-primary-content: oklch(96% 0.018 272.314);
-  --color-secondary: oklch(65% 0.241 354.308);
-  --color-secondary-content: oklch(94% 0.028 342.258);
-  --color-accent: oklch(77% 0.152 181.912);
-  --color-accent-content: oklch(38% 0.063 188.416);
-  --color-neutral: oklch(14% 0.005 285.823);
-  --color-neutral-content: oklch(92% 0.004 286.32);
-  --color-info: oklch(74% 0.16 232.661);
-  --color-info-content: oklch(29% 0.066 243.157);
+  --color-base-100: oklch(17% 0.016 25.42);
+  --color-base-200: oklch(15% 0.014 25.1);
+  --color-base-300: oklch(13% 0.012 25.09);
+  --color-base-content: oklch(97% 0.01 60);
+  --color-primary: oklch(58% 0.26 25.117);
+  --color-primary-content: oklch(99% 0.01 60);
+  --color-secondary: oklch(48% 0.21 35.308);
+  --color-secondary-content: oklch(99% 0.01 60);
+  --color-accent: oklch(68% 0.18 110.912);
+  --color-accent-content: oklch(20% 0.01 60);
+  --color-neutral: oklch(14% 0.02 25.823);
+  --color-neutral-content: oklch(99% 0.01 60);
+  --color-info: oklch(70% 0.16 232.661);
+  --color-info-content: oklch(20% 0.066 243.157);
   --color-success: oklch(76% 0.177 163.223);
-  --color-success-content: oklch(37% 0.077 168.94);
+  --color-success-content: oklch(20% 0.077 168.94);
   --color-warning: oklch(82% 0.189 84.429);
-  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-warning-content: oklch(20% 0.112 45.904);
   --color-error: oklch(71% 0.194 13.428);
-  --color-error-content: oklch(27% 0.105 12.094);
+  --color-error-content: oklch(20% 0.105 12.094);
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;

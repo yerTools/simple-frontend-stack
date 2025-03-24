@@ -16,8 +16,10 @@
 /* https://daisyui.com/docs/config/ */
 @plugin "daisyui" {
   themes:
-    light --default,
-    dark --prefersdark,
+    solidarity-light --default,
+    solidarity-dark --prefersdark,
+    light,
+    dark,
     cupcake,
     synthwave,
     retro,
