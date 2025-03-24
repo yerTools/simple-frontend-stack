@@ -6,6 +6,7 @@ import GitHubIcon from "~icons/line-md/github-loop";
 import XIcon from "~icons/line-md/menu-to-close-transition";
 import SunIcon from "~icons/line-md/moon-filled-to-sunny-filled-loop-transition";
 import MoonIcon from "~icons/line-md/sunny-filled-loop-to-moon-filled-loop-transition";
+import ElevatorIcon from "~icons/line-md/upload-outline-loop";
 import FlagIcon from "~icons/solar/flag-bold-duotone";
 import LoadingIcon from "~icons/svg-spinners/bouncing-ball";
 
@@ -16,6 +17,7 @@ import {
   Suspense,
   createEffect,
   createSignal,
+  onCleanup,
 } from "solid-js";
 
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
@@ -144,6 +146,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
     localStorage.getItem("theme") === "dark",
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
+  const [showElevator, setShowElevator] = createSignal(false);
 
   const [mainRef] = createAutoAnimate();
 
@@ -189,6 +192,33 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
   // Schließe das mobile Menü, wenn sich die Route ändert
   const handleNavigation = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  // Handle scroll to track when to show elevator button
+  createEffect(() => {
+    const handleScroll = () => {
+      // Show elevator button when scrolled down more than 300px
+      setShowElevator(window.scrollY > 300);
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Initial check
+    handleScroll();
+
+    // Cleanup
+    onCleanup(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+  });
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   // Navigation-Links für Desktop und Mobile
@@ -306,6 +336,21 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
           </p>
         </div>
       </footer>
+
+      {/* Elevator Button */}
+      <div
+        class={`fixed right-8 bottom-8 transition-all duration-300 ${
+          showElevator() ? "scale-100 opacity-100" : "scale-0 opacity-0"
+        }`}
+      >
+        <button
+          onClick={scrollToTop}
+          class="btn btn-primary btn-xl btn-circle shadow-lg transition-transform duration-200 hover:scale-110"
+          aria-label="Scroll to top"
+        >
+          <ElevatorIcon class="h-10 w-10" />
+        </button>
+      </div>
     </div>
   );
 };
