@@ -65,6 +65,7 @@
     "unplugin-icons": "^22.1.0",
     "unplugin-lightningcss": "^0.3.2",
     "vite": "^6.2.2",
+    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-lqip": "^0.0.5",
     "vite-plugin-solid": "^2.11.6",
     "vite-plugin-webfont-dl": "^3.10.4",
