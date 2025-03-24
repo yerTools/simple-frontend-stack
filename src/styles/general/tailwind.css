@@ -1,4 +1,14 @@
 @import "tailwindcss";
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@tailwind utilities;
+
+@plugin "@tailwindcss/typography";
+
 @plugin "tailwindcss-motion";
 @import "tailwindcss-intersect";
 @plugin "@kobalte/tailwindcss";
