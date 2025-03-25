@@ -11,7 +11,13 @@
     "types": ["vite/client", "unplugin-icons/types/solid"],
     "noEmit": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@prism": ["node_modules/prismjs"],
+      "@prism-jsx": ["node_modules/prismjs/components/prism-jsx"],
+      "@prism-jsx-tsx": ["node_modules/prismjs/components/prism-tsx"]
+    }
   },
   "include": [
     "src/**/*.ts",

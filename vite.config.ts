@@ -46,7 +46,12 @@ export default defineConfig({
 
     rollupOptions: {
       input: ["index.html"].map((file) => resolve(root, file)),
-      treeshake: "smallest",
+      treeshake: {
+        preset: "smallest",
+        propertyReadSideEffects: false,
+        moduleSideEffects: (id) => id.includes("/prismjs/"),
+        annotations: true,
+      },
 
       output: {
         //entryFileNames: "index.js",
@@ -71,6 +76,19 @@ export default defineConfig({
         esModule: true,
         exports: "auto",
       },
+    },
+  },
+  resolve: {
+    alias: {
+      "@prism": resolve(__dirname, "node_modules/prismjs"),
+      "@prism-jsx": resolve(
+        __dirname,
+        "node_modules/prismjs/components/prism-jsx",
+      ),
+      "@prism-jsx-tsx": resolve(
+        __dirname,
+        "node_modules/prismjs/components/prism-tsx",
+      ),
     },
   },
 });

@@ -21,6 +21,7 @@ const config = {
   vueIndentScriptAndStyle: false,
   importOrder: [
     "\\.css$",
+    "^@prism",
     "^~icons/(.*)$",
     "^@core/(.*)$",
     "^@server/(.*)$",

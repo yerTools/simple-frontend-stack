@@ -1,5 +1,9 @@
 import "prismjs/themes/prism-okaidia.min.css";
 
+import "@prism";
+import "@prism-jsx";
+import "@prism-jsx-tsx";
+
 import FontColorIcon from "~icons/bx/font-color";
 import GoIcon from "~icons/devicon/go";
 import SolidIcon from "~icons/devicon/solidjs";
@@ -21,9 +25,6 @@ import TerminalIcon from "~icons/tabler/terminal";
 import { Component, For, JSX, Show, createSignal } from "solid-js";
 
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
-import "prismjs";
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-tsx";
 import { Highlight, Language } from "solid-highlight";
 
 import { ObserverProvider } from "./Layout";
