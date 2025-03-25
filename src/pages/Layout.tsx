@@ -153,6 +153,19 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = createSignal(false);
   const [showElevator, setShowElevator] = createSignal(false);
+  const [showElevatorIcon, setShowElevatorIcon] = createSignal(false);
+
+  createEffect<number | undefined>((lastTimeout) => {
+    clearTimeout(lastTimeout);
+
+    const show = showElevator();
+    const timeout = show ? 200 : 300;
+
+    return setTimeout(
+      () => setShowElevatorIcon(show),
+      timeout,
+    ) as unknown as number;
+  });
 
   const [mainRef] = createAutoAnimate();
 
@@ -357,7 +370,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
           class="btn btn-primary btn-xl btn-circle shadow-lg transition-transform duration-200 hover:scale-110"
           aria-label="Scroll to top"
         >
-          <ElevatorIcon class="h-10 w-10" />
+          {showElevatorIcon() && <ElevatorIcon class="h-10 w-10" />}
         </button>
       </div>
     </div>
