@@ -508,12 +508,12 @@ const ThemeShowcase: Component = (): JSX.Element => {
                     <span class="countdown countdown-500 font-mono text-6xl">
                       <span
                         aria-live="polite"
-                        aria-label={`${percentageCountdown()}`}
+                        aria-label={`${percentageCountdown() % 100}`}
                         {...{
-                          style: `--value:${percentageCountdown()};`,
+                          style: `--value:${percentageCountdown() % 100};`,
                         }}
                       >
-                        {percentageCountdown()}
+                        {percentageCountdown() % 100}
                       </span>
                     </span>
                     <span class="text-sm">/100</span>
