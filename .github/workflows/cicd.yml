@@ -32,8 +32,8 @@ jobs:
       - name: Install Backend Dependencies
         run: go mod download
 
-      - name: Create Empty 'dist' Directory
-        run: mkdir -p dist
+      - name: Create 'dist' Directory For Embedding
+        run: mkdir -p dist && touch dist/.gitkeep
 
       - name: Run Type Check
         run: bun run type-check
