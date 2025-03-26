@@ -40,5 +40,8 @@
   "cSpell.language": "en,de",
   "[go]": {
     "editor.defaultFormatter": "golang.go"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   }
 }
