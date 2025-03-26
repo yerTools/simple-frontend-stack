@@ -7,9 +7,9 @@ import (
 )
 
 func main() {
-    app := pocketbase.New()
+	app := pocketbase.New()
 
-    if err := app.Start(); err != nil {
-        log.Fatal(err)
-    }
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
 }
