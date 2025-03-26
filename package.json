@@ -100,8 +100,5 @@
       "style": "module",
       "parser": "typescript"
     }
-  },
-  "sideEffects": [
-    "**/@prism*"
-  ]
+  }
 }
