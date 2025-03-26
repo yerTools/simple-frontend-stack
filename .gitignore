@@ -2,6 +2,9 @@
 /dist
 
 /pb_data
+/pb_hooks
+/pb_migrations
+/pb_public
 
 /simple-frontend-stack
 /simple-frontend-stack.exe
