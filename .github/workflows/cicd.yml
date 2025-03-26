@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
@@ -14,6 +14,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+          cache: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -32,16 +38,23 @@ jobs:
       - name: Run Format Check
         run: bun run format-check
 
-      - name: Build Static Site
+      - name: Build Fullstack Application
         run: bun run build
 
-      - name: Upload Build Artifact
+      - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
+          name: frontend-dist
           path: dist
 
-  deploy:
+      - name: Upload Go Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-binaries
+          path: |
+            simple-frontend-stack
+
+  deploy-pages:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -53,10 +66,10 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Download Build Artifact
+      - name: Download Frontend Artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: frontend-dist
           path: dist
 
       - name: Copy index.html to 404.html for SPA fallback
