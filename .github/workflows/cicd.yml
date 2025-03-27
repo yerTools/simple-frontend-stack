@@ -119,24 +119,35 @@ jobs:
   deploy-docker:
     name: 🐳 Build & Publish Docker Image
     needs: build
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    # Run for all branches and PRs, not just main and tags
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+      pull-requests: read
     steps:
       - name: 📥 Checkout Repository Code
         uses: actions/checkout@v4
 
-      - name: 🏷️ Extract Version Information from Git
+      - name: 🏷️ Extract Version Information
         id: version
         run: |
+          # For tags (releases)
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
             echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION=latest" >> $GITHUB_OUTPUT
+          # For main branch
+          elif [[ $GITHUB_REF == refs/heads/main ]]; then
             echo "TAG=latest" >> $GITHUB_OUTPUT
+          # For pull requests
+          elif [[ $GITHUB_REF == refs/pull/* ]]; then
+            PR_NUMBER=$(echo $GITHUB_REF | cut -d / -f 3)
+            echo "TAG=pr-${PR_NUMBER}" >> $GITHUB_OUTPUT
+          # For other branches
+          else
+            BRANCH_NAME=${GITHUB_REF#refs/heads/}
+            # Replace any characters not allowed in Docker tags with -
+            SAFE_BRANCH_NAME=$(echo $BRANCH_NAME | tr '/' '-' | tr '.' '-')
+            echo "TAG=branch-${SAFE_BRANCH_NAME}" >> $GITHUB_OUTPUT
           fi
 
       - name: 🔑 Authenticate to GitHub Container Registry
@@ -147,6 +158,7 @@ jobs:
           registry: ghcr.io
 
       - name: 🛠️ Set Up Docker Buildx for Multi-Platform Builds
+        id: buildx
         uses: docker/setup-buildx-action@v3
 
       - name: 💾 Cache Docker Build Layers
@@ -172,9 +184,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ghcr.io/yertools/simple-frontend-stack:${{ steps.version.outputs.TAG }}
-            ghcr.io/yertools/simple-frontend-stack:latest
+          tags: ghcr.io/yertools/simple-frontend-stack:${{ steps.version.outputs.TAG }}
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/386,linux/riscv64
           cache-from: type=local,src=/tmp/.buildx-cache

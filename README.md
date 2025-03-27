@@ -419,6 +419,31 @@ docker build -t simple-frontend-stack .
 docker run -p 8161:8161 simple-frontend-stack
 ```
 
+#### Docker Image Tagging Scheme
+
+Pre-built Docker images are available from GitHub Container Registry with the following tags:
+
+- `latest` - Built from the `main` branch
+- `vX.Y.Z` - Built from release tags (e.g., `v1.0.0`)
+- `branch-name` - Built from branches (e.g., `branch-feature-xyz`)
+- `pr-123` - Built from pull requests (e.g., `pr-123`)
+
+You can pull these images directly for testing:
+
+```bash
+# Pull latest stable version
+docker pull ghcr.io/yertools/simple-frontend-stack:latest
+
+# Pull specific version
+docker pull ghcr.io/yertools/simple-frontend-stack:v1.0.0
+
+# Pull from a branch
+docker pull ghcr.io/yertools/simple-frontend-stack:branch-feature-xyz
+
+# Pull from a pull request
+docker pull ghcr.io/yertools/simple-frontend-stack:pr-123
+```
+
 #### Docker Deployment Features
 
 The Docker implementation includes several production-ready features:
