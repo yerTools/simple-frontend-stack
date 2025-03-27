@@ -98,9 +98,16 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: javascript, go
+          setup-python-dependencies: false
+          config-file: ./.github/codeql/codeql-config.yml
+          tools: latest
 
       - name: 🕵️ Perform CodeQL Security Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript,go"
+          upload: true
+          output: sarif-results
 
   deploy-pages:
     name: 🌐 Deploy to GitHub Pages
