@@ -21,6 +21,7 @@ Want to see it in action? Check out the live demo at [simple-frontend-stack.ltl.
 - [Vite Plugins 🔌](#vite-plugins-)
 - [Development Workflow 🛠️](#development-workflow-️)
 - [Project Structure 📂](#project-structure-)
+- [CI/CD Pipeline 🔄](#cicd-pipeline-)
 - [Deployment Options 🌐](#deployment-options-)
 - [Contributing 👥](#contributing-)
 - [Summary 🎯](#summary-)
@@ -228,6 +229,179 @@ simple-frontend-stack/
 ```
 
 This organization promotes separation of concerns and makes it easy to locate specific components and files within the project.
+
+## CI/CD Pipeline 🔄
+
+This project includes a comprehensive CI/CD workflow using GitHub Actions to automate testing, building, and deploying your application.
+
+### Workflow Overview
+
+The CI/CD pipeline consists of these main jobs:
+
+1. **Build Job** - Builds and validates the application
+2. **Security Scanning** - Analyzes code for security vulnerabilities
+3. **Deploy Pages** - Deploys the frontend to GitHub Pages
+4. **Deploy Docker** - Builds and publishes multi-architecture Docker images
+
+### Trigger Events
+
+The workflow runs on:
+
+- **Push to main branch** - Triggers full build and deployment
+- **Pull requests to main** - Runs build and tests only
+- **Release tags** - Triggered when you push a version tag (`v*.*.*`)
+- **Manual trigger** - Can be run on-demand from GitHub Actions tab
+
+### Detailed Job Breakdown
+
+#### 1. Build Job
+
+```yaml
+build:
+  runs-on: ubuntu-latest
+  steps:
+    # Setup and dependency installation steps
+    - name: Checkout Repository
+    - name: Setup Go
+    - name: Setup Bun
+    - name: Cache Bun Dependencies
+    - name: Install Frontend Dependencies
+    - name: Install Backend Dependencies
+
+    # Quality and security checks
+    - name: Security Scan Dependencies
+    - name: Run Type Check
+    - name: Run Format Check
+    - name: Run Tests
+    - name: Build Fullstack Application
+    - name: Run Lint Check
+
+    # Artifact creation for other jobs
+    - name: Upload Frontend Artifact
+    - name: Upload Go Binaries
+```
+
+This job sets up the environment, installs dependencies with caching for performance, runs various code quality checks, builds the application, and saves the build artifacts for use in subsequent jobs.
+
+#### 2. Security Scanning
+
+```yaml
+security-scan:
+  runs-on: ubuntu-latest
+  needs: build
+  steps:
+    - name: Checkout Repository
+    - name: Initialize CodeQL
+    - name: Perform CodeQL Analysis
+```
+
+This job uses GitHub's CodeQL to scan the codebase for security vulnerabilities in both JavaScript/TypeScript and Go code.
+
+#### 3. Deploy to GitHub Pages
+
+```yaml
+deploy-pages:
+  needs: build
+  runs-on: ubuntu-latest
+  if: github.ref == 'refs/heads/main'
+  environment:
+    name: github-pages
+    url: ${{steps.deployment.outputs.page_url}}
+  steps:
+    - name: Download Frontend Artifact
+    - name: Copy index.html to 404.html for SPA fallback
+    - name: Setup Pages
+    - name: Upload artifact
+    - name: Deploy to GitHub Pages
+```
+
+This job deploys the frontend to GitHub Pages, but only when changes are pushed to the main branch. It also creates a 404.html page that redirects to the main application, enabling proper client-side routing for SPAs.
+
+#### 4. Deploy Docker Image
+
+```yaml
+deploy-docker:
+  needs: build
+  name: Publish Docker Image
+  if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+    - name: Extract Version
+    - name: Log in to GitHub Packages
+    - name: Set up Docker Buildx
+    - name: Cache Docker layers
+    - name: Scan Docker image for vulnerabilities
+    - name: Build and push Docker image
+```
+
+This job builds and publishes multi-architecture Docker images to GitHub Packages. It runs on pushes to main or when version tags are created. The job also:
+
+- Extracts version information from git tags
+- Sets up Docker Buildx for multi-architecture builds
+- Scans for security vulnerabilities with Trivy
+- Caches Docker layers for faster builds
+- Publishes images with proper version tagging
+
+### Using the CI/CD Workflow
+
+#### Configuration Required
+
+To use this workflow in your own project:
+
+1. **Set up GitHub repository secrets**:
+
+   - `GH_PACKAGES_USERNAME` - GitHub username with package write permissions
+   - `GH_PACKAGES_PASSWORD` - GitHub personal access token with package write permissions
+   - `SNYK_TOKEN` (optional) - For dependency vulnerability scanning
+
+2. **Enable GitHub Pages**:
+
+   - Go to your repository settings
+   - Navigate to Pages section
+   - Select "GitHub Actions" as the source
+
+3. **Configure Docker registry**:
+   - Make sure your GitHub Container Registry is enabled
+   - Update the Docker image name in the workflow:
+     ```yaml
+     tags: |
+       ghcr.io/YOUR_USERNAME/YOUR_REPO:${{ steps.version.outputs.TAG }}
+       ghcr.io/YOUR_USERNAME/YOUR_REPO:latest
+     ```
+
+#### Creating Versioned Releases
+
+To create a versioned release with proper Docker image tagging:
+
+```bash
+# Tag a new version
+git tag v1.0.0
+
+# Push the tag to trigger the workflow
+git push origin v1.0.0
+```
+
+This will create a Docker image tagged with both `latest` and `v1.0.0`.
+
+#### Customizing the Workflow
+
+You can customize the workflow by:
+
+- Adding test coverage reporting
+- Integrating with notification services (Slack, Discord, etc.)
+- Setting up deployment to additional environments (staging, production)
+- Adding performance testing or load testing
+- Implementing canary deployments or blue-green deployment strategies
+
+### Troubleshooting Common Issues
+
+- **Build failures**: Check logs for specific error messages
+- **Deployment failures**: Verify GitHub Pages is properly configured
+- **Docker push failures**: Check credentials and repository permissions
+- **Security scan alerts**: Review and fix identified vulnerabilities
+
+The CI/CD workflow is designed to catch issues early in the development process and provide a smooth path to production deployment.
 
 ## Deployment Options 🌐
 
