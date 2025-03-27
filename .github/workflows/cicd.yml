@@ -202,6 +202,8 @@ jobs:
         arch: [386, amd64, arm, arm64, riscv64]
         exclude:
           - os: windows
+            arch: arm
+          - os: windows
             arch: riscv64
           - os: darwin
             arch: 386
@@ -225,13 +227,13 @@ jobs:
 
       - name: 📚 Install Backend Go Dependencies
         run: go mod download
-        
+
       - name: 📥 Download Frontend Dist Artifact
         uses: actions/download-artifact@v4
         with:
           name: frontend-dist
           path: dist
-        
+
       - name: 🔍 Verify Dist Directory
         run: |
           echo "Content of dist directory:"
@@ -253,12 +255,12 @@ jobs:
           fi
           echo "Building for OS: $GOOS, Arch: $GOARCH -> $BIN_NAME"
           go build -ldflags="-s -w" -o build/${BIN_NAME} ./main.go
-          
+
           # For non-Windows builds, make the binary executable
           if [ "${{ matrix.os }}" != "windows" ]; then
             chmod +x build/${BIN_NAME}
           fi
-          
+
           ls -lah build/
 
       - name: 📤 Upload Build Artifact
@@ -321,12 +323,12 @@ jobs:
       - name: 📝 Prepare Release Assets
         run: |
           mkdir -p release-assets
-          
+
           # Process binary files
           find release-artifacts -type f -name "simple-frontend-stack_*" | while read file; do
             cp "$file" release-assets/
           done
-          
+
           # Pack frontend dist separately
           if [ -d "release-artifacts/frontend-dist-standalone" ]; then
             cd release-artifacts
@@ -334,7 +336,7 @@ jobs:
             mv frontend-dist.zip ../release-assets/
             cd ..
           fi
-          
+
           ls -la release-assets/
 
       - name: 📤 Upload Release Assets
