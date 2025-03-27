@@ -242,6 +242,7 @@ bun run frontend:build
 ```
 
 Deploy the generated `dist` folder to any static site hosting service like:
+
 - GitHub Pages
 - Netlify
 - Vercel
@@ -249,7 +250,7 @@ Deploy the generated `dist` folder to any static site hosting service like:
 
 ### 2. Docker Deployment (Full Stack)
 
-The project includes a Dockerfile for containerized deployment of both frontend and PocketBase backend:
+The project includes a robust, multi-stage Dockerfile for containerized deployment of both frontend and PocketBase backend:
 
 ```bash
 # Build the Docker image
@@ -258,6 +259,35 @@ docker build -t simple-frontend-stack .
 # Run the container
 docker run -p 8161:8161 simple-frontend-stack
 ```
+
+#### Docker Deployment Features
+
+The Docker implementation includes several production-ready features:
+
+- **Multi-stage build** for minimal image size
+- **Non-root user** for enhanced security
+- **Health checks** for container orchestration platforms
+- **Volume mounts** for data persistence:
+  ```bash
+  docker run -p 8161:8161 \
+    -v ./pb_data:/app/pb_data \
+    -v ./pb_public:/app/pb_public \
+    -v ./pb_hooks:/app/pb_hooks \
+    -v ./pb_migrations:/app/pb_migrations \
+    simple-frontend-stack
+  ```
+- **Environment variable support**:
+  ```bash
+  docker run -p 8161:8161 \
+    -e APP_ENV=production \
+    -e DEBUG=false \
+    simple-frontend-stack
+  ```
+- **Multi-architecture support** for various platforms:
+  ```bash
+  docker buildx build --platform linux/amd64,linux/arm64 \
+    -t simple-frontend-stack . --push
+  ```
 
 ### 3. Manual Deployment
 
@@ -272,6 +302,7 @@ Then deploy the generated binary and static files to your server.
 ### CI/CD with GitHub Actions
 
 The repository includes GitHub Actions workflows for:
+
 - Building and testing the application
 - Deploying to GitHub Pages
 - Building and publishing multi-architecture Docker images
