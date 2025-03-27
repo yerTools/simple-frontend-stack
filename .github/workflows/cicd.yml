@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build, Test and Deploy Pipeline
 
 on:
   push:
@@ -10,25 +10,25 @@ on:
 
 jobs:
   build:
+    name: 🔨 Build & Validate Application
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: 📥 Checkout Repository Code
         uses: actions/checkout@v4
 
-      - name: Setup Go
+      - name: 🔧 Setup Go Runtime Environment
         uses: actions/setup-go@v5
         with:
           go-version: "1.24"
           cache: true
 
-      - name: Setup Bun
+      - name: 🥟 Setup Bun JavaScript Runtime
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      # Add caching for Bun dependencies
-      - name: Cache Bun Dependencies
+      - name: 💾 Cache Bun Dependencies
         uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
@@ -36,14 +36,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-bun-
 
-      - name: Install Frontend Dependencies
+      - name: 📦 Install Frontend Dependencies
         run: bun install
 
-      - name: Install Backend Dependencies
+      - name: 📚 Install Backend Go Dependencies
         run: go mod download
 
-      # Add security scanning for dependencies
-      - name: Security Scan Dependencies
+      - name: 🔍 Scan Dependencies for Security Vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true
         with:
@@ -51,95 +50,99 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Type Check
+      - name: 🧪 Run TypeScript Type Checking
         run: bun run type-check
 
-      - name: Run Format Check
+      - name: 💅 Verify Code Formatting
         run: bun run format-check
 
       # Add test step
-      # - name: Run Tests
+      # - name: 🧠 Run Automated Tests
       #   run: bun run test || echo "No tests specified - continuing"
 
-      - name: Build Fullstack Application
+      - name: 🏗️ Build Fullstack Application
         run: bun run build
 
-      - name: Run Lint Check
+      - name: 🔎 Run Code Linting Checks
         run: bun run lint-check
 
-      - name: Upload Frontend Artifact
+      - name: 📤 Upload Frontend Distribution Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
           path: dist
 
-      - name: Upload Go Binaries
+      - name: 📤 Upload Go Binary Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: go-binaries
           path: |
             simple-frontend-stack
 
-  # Add CodeQL security scanning
   security-scan:
+    name: 🔒 Security Code Analysis
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     steps:
-      - name: Checkout Repository
+      - name: 📥 Checkout Repository Code
         uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
+      - name: 🚀 Initialize CodeQL Analysis Engine
         uses: github/codeql-action/init@v3
         with:
           languages: javascript, go
 
-      - name: Perform CodeQL Analysis
+      - name: 🕵️ Perform CodeQL Security Analysis
         uses: github/codeql-action/analyze@v3
 
   deploy-pages:
+    name: 🌐 Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}
+      url: ${{steps.gh_pages_deployment.outputs.page_url}}
     permissions:
       contents: write
       pages: write
       id-token: write
     steps:
-      - name: Download Frontend Artifact
+      - name: 📥 Download Frontend Build Artifact
         uses: actions/download-artifact@v4
         with:
           name: frontend-dist
           path: dist
 
-      - name: Copy index.html to 404.html for SPA fallback
+      - name: 📝 Create SPA Fallback for Client-Side Routing
         run: cp dist/index.html dist/404.html
 
-      - name: Setup Pages
+      - name: ⚙️ Configure GitHub Pages Environment
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: 📤 Upload Pages Deployment Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
 
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: 🚀 Deploy Static Assets to GitHub Pages
+        id: gh_pages_deployment
         uses: actions/deploy-pages@v4
 
   deploy-docker:
+    name: 🐳 Build & Publish Docker Image
     needs: build
-    name: Publish Docker Image
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout code"
+      - name: 📥 Checkout Repository Code
         uses: actions/checkout@v4
 
-      # Extract version information
-      - name: Extract Version
+      - name: 🏷️ Extract Version Information from Git
         id: version
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
@@ -150,17 +153,17 @@ jobs:
             echo "TAG=latest" >> $GITHUB_OUTPUT
           fi
 
-      - name: Log in to GitHub Packages
+      - name: 🔑 Authenticate to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.GH_PACKAGES_USERNAME }}
           password: ${{ secrets.GH_PACKAGES_PASSWORD }}
           registry: ghcr.io
 
-      - name: Set up Docker Buildx
+      - name: 🛠️ Set Up Docker Buildx for Multi-Platform Builds
         uses: docker/setup-buildx-action@v3
 
-      - name: Cache Docker layers
+      - name: 💾 Cache Docker Build Layers
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
@@ -168,8 +171,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      # Scan Docker image for vulnerabilities
-      - name: Scan Docker image for vulnerabilities
+      - name: 🔍 Scan Docker Image for Security Vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
@@ -178,7 +180,7 @@ jobs:
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
 
-      - name: Build and push Docker image
+      - name: 🏭 Build and Push Multi-Architecture Docker Image
         uses: docker/build-push-action@v6
         with:
           context: .
