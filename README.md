@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE.md)
 ![CI/CD](https://github.com/yerTools/simple-frontend-stack/actions/workflows/cicd.yml/badge.svg)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/yerTools/simple-frontend-stack?utm_source=oss&utm_medium=github&utm_campaign=yerTools%2Fsimple-frontend-stack&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 ## TL;DR ⚡️
 
@@ -14,11 +15,14 @@ Want to see it in action? Check out the live demo at [simple-frontend-stack.ltl.
 
 - [Core Stack ⚙️](#core-stack-️)
 - [Overview 🌟](#overview-)
+- [Key Features ✨](#key-features-)
 - [Quick Start Guide 🚀](#quick-start-guide-)
 - [Included Frameworks & Libraries 📚](#included-frameworks--libraries-)
 - [Vite Plugins 🔌](#vite-plugins-)
 - [Development Workflow 🛠️](#development-workflow-️)
 - [Project Structure 📂](#project-structure-)
+- [Deployment Options 🌐](#deployment-options-)
+- [Contributing 👥](#contributing-)
 - [Summary 🎯](#summary-)
 - [License 📝](#license-)
 
@@ -48,6 +52,20 @@ With PocketBase, you can easily construct a full-stack application complete with
 The idea is to leverage **standardized languages, libraries, tools, and frameworks** to lower the entry barrier—even for developers with limited IT background.  
 While languages like Elm or Gleam might offer superior type-safety for complex applications, PocketBase (written in Go) strikes a balance for a powerful yet simple backend solution.  
 Combined with TypeScript, SolidJS, and a vibrant ecosystem of libraries, you'll have a practical and maintainable environment for rapid development.
+
+## Key Features ✨
+
+- **Modern JavaScript/TypeScript Support** - Full TypeScript integration with strict type checking
+- **Responsive Design Framework** - Tailwind CSS with custom utility classes for responsive layouts
+- **Component Library** - DaisyUI components with custom "solidarity" themes in light and dark modes
+- **Blazing Fast Development** - Hot Module Reloading (HMR) with Vite and lightning-fast bundle times with Bun
+- **Advanced Animation Support** - Built-in animations with Auto Animate, Swapy, and Intersection Observer utilities
+- **Accessibility** - Accessible components using Kobalte UI primitives
+- **Icon System** - Thousands of icons from multiple libraries via Iconify integration
+- **State Management** - Multiple options from simple signals to XState for complex state machines
+- **Production Optimization** - Built-in compression, code splitting, and performance optimizations
+- **Docker Support** - Multi-architecture Docker images for easy deployment
+- **CI/CD Integration** - GitHub Actions workflows for testing, building, and deployment
 
 ---
 
@@ -172,11 +190,17 @@ bun run lint
 
 # Check for linting issues without fixing
 bun run lint-check
+
+# Backend-specific commands
+bun run backend:build    # Build the Go backend
+bun run backend:serve    # Run the PocketBase server
+bun run backend:format   # Format Go code
 ```
 
 ## Project Structure 📂
 
 The project follows a simple and intuitive structure:
+
 ```
 simple-frontend-stack/
 ├── src/                  # Source code
@@ -184,11 +208,19 @@ simple-frontend-stack/
 │   ├── pages/            # Page components
 │   ├── styles/           # CSS stylesheets
 │   │   └── general/      # General styling utilities
+│   ├── backend/          # Go backend code (PocketBase integration)
 │   ├── types/            # TypeScript type definitions
 │   ├── index.html        # Main HTML template
 │   └── index.tsx         # Application entry point
+├── .github/              # GitHub-specific files
+│   └── workflows/        # GitHub Actions CI/CD workflows
+├── .husky/               # Git hooks for code quality
+├── .vscode/              # VS Code configuration
 ├── bun.lock              # Bun lockfile
+├── Dockerfile            # Docker container definition
 ├── eslint.config.mjs     # ESLint configuration
+├── go.mod, go.sum        # Go module definitions
+├── main.go               # Go entry point
 ├── package.json          # Project dependencies
 ├── prettier.config.js    # Prettier configuration
 ├── tsconfig.json         # TypeScript configuration
@@ -196,6 +228,93 @@ simple-frontend-stack/
 ```
 
 This organization promotes separation of concerns and makes it easy to locate specific components and files within the project.
+
+## Deployment Options 🌐
+
+This project can be deployed in several ways:
+
+### 1. Static Site (Frontend Only)
+
+For a purely static frontend deployment, build the project and deploy the generated files:
+
+```bash
+bun run frontend:build
+```
+
+Deploy the generated `dist` folder to any static site hosting service like:
+- GitHub Pages
+- Netlify
+- Vercel
+- Cloudflare Pages
+
+### 2. Docker Deployment (Full Stack)
+
+The project includes a Dockerfile for containerized deployment of both frontend and PocketBase backend:
+
+```bash
+# Build the Docker image
+docker build -t simple-frontend-stack .
+
+# Run the container
+docker run -p 8161:8161 simple-frontend-stack
+```
+
+### 3. Manual Deployment
+
+Build both frontend and backend:
+
+```bash
+bun run build
+```
+
+Then deploy the generated binary and static files to your server.
+
+### CI/CD with GitHub Actions
+
+The repository includes GitHub Actions workflows for:
+- Building and testing the application
+- Deploying to GitHub Pages
+- Building and publishing multi-architecture Docker images
+
+## Contributing 👥
+
+Contributions are welcome! Here's how you can contribute:
+
+1. **Fork** the repository on GitHub.
+2. **Clone** your fork locally:
+   ```bash
+   git clone https://github.com/your-username/simple-frontend-stack
+   cd simple-frontend-stack
+   ```
+3. **Create a new branch** for your feature or bugfix:
+   ```bash
+   git checkout -b my-feature-branch
+   ```
+4. **Make your changes** and commit them with meaningful messages:
+   ```bash
+   git commit -m "Add feature: description of your changes"
+   ```
+5. **Run tests and formatting checks**:
+   ```bash
+   bun run type-check
+   bun run lint-check
+   bun run format-check
+   ```
+6. **Push** your branch to your fork:
+   ```bash
+   git push origin my-feature-branch
+   ```
+7. Submit a **Pull Request** through GitHub's interface.
+8. Participate in the review process by responding to feedback.
+
+### Code Style Guidelines
+
+- Follow the established project structure
+- Use TypeScript with strict types wherever possible
+- Format your code with Prettier before submitting
+- Ensure your code passes all ESLint checks
+- Write meaningful commit messages following conventional commits style
+- Add appropriate documentation for new features
 
 ---
 
@@ -213,4 +332,4 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 _Code has no borders – neither should solidarity_ 🌍✊
 
-Last updated: March 24, 2025
+Last updated: March 27, 2025
