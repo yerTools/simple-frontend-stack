@@ -239,9 +239,8 @@ This project includes a comprehensive CI/CD workflow using GitHub Actions to aut
 The CI/CD pipeline consists of these main jobs:
 
 1. **Build Job** - Builds and validates the application
-2. **Security Scanning** - Analyzes code for security vulnerabilities
-3. **Deploy Pages** - Deploys the frontend to GitHub Pages
-4. **Deploy Docker** - Builds and publishes multi-architecture Docker images
+2. **Deploy Pages** - Deploys the frontend to GitHub Pages
+3. **Deploy Docker** - Builds and publishes multi-architecture Docker images
 
 ### Trigger Events
 
@@ -283,21 +282,7 @@ build:
 
 This job sets up the environment, installs dependencies with caching for performance, runs various code quality checks, builds the application, and saves the build artifacts for use in subsequent jobs.
 
-#### 2. Security Scanning
-
-```yaml
-security-scan:
-  runs-on: ubuntu-latest
-  needs: build
-  steps:
-    - name: Checkout Repository
-    - name: Initialize CodeQL
-    - name: Perform CodeQL Analysis
-```
-
-This job uses GitHub's CodeQL to scan the codebase for security vulnerabilities in both JavaScript/TypeScript and Go code.
-
-#### 3. Deploy to GitHub Pages
+#### 2. Deploy to GitHub Pages
 
 ```yaml
 deploy-pages:
@@ -317,7 +302,7 @@ deploy-pages:
 
 This job deploys the frontend to GitHub Pages, but only when changes are pushed to the main branch. It also creates a 404.html page that redirects to the main application, enabling proper client-side routing for SPAs.
 
-#### 4. Deploy Docker Image
+#### 3. Deploy Docker Image
 
 ```yaml
 deploy-docker:
