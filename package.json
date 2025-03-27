@@ -10,7 +10,7 @@
     "backend:format-check": "gofmt -l -d -e ./main.go $(find . -type f -name '*.go')",
     "backend:lint": "go fix ./...",
     "backend:lint-check": "go vet ./...",
-    "backend:serve": "go run main.go serve",
+    "backend:serve": "go run main.go serve --http=0.0.0.0:8161",
     "backend:upgrade": "go get -u -t ./... && go mod tidy",
     "frontend:build": "bun x vite build",
     "frontend:dev": "bun run frontend:watch & bun run frontend:serve",
