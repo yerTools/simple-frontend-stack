@@ -64,6 +64,11 @@ RUN apk add --no-cache \
   ca-certificates \
   wget
 
+# Add Open Container Initiative (OCI) labels
+LABEL org.opencontainers.image.source=https://github.com/yerTools/simple-frontend-stack
+LABEL org.opencontainers.image.description="A lightweight frontend stack for rapid web app development powered by SolidJS, TailwindCSS, and DaisyUI. Includes optional PocketBase backend with Bun and Vite for blazing-fast development workflow."
+LABEL org.opencontainers.image.licenses=MIT
+
 # Set the working directory
 WORKDIR /app
 
