@@ -8,9 +8,8 @@ updates:
   - package-ecosystem: "bun"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
       time: "01:12"
-      day: "friday"
     open-pull-requests-limit: 25
     labels:
       - "dependencies"
@@ -19,13 +18,15 @@ updates:
     commit-message:
       prefix: "deps(bun)"
       include: "scope"
+    groups:
+      bun-dependencies:
+        patterns: ["*"]
 
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
       time: "01:12"
-      day: "friday"
     open-pull-requests-limit: 25
     labels:
       - "dependencies"
@@ -34,13 +35,15 @@ updates:
     commit-message:
       prefix: "deps(go)"
       include: "scope"
+    groups:
+      go-dependencies:
+        patterns: ["*"]
 
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
       time: "01:12"
-      day: "friday"
     open-pull-requests-limit: 25
     labels:
       - "dependencies"
@@ -49,13 +52,15 @@ updates:
     commit-message:
       prefix: "deps(docker)"
       include: "scope"
+    groups:
+      docker-dependencies:
+        patterns: ["*"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
       time: "01:12"
-      day: "friday"
     open-pull-requests-limit: 25
     labels:
       - "dependencies"
@@ -64,3 +69,6 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
+    groups:
+      github-actions-dependencies:
+        patterns: ["*"]
