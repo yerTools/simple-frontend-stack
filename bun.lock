@@ -36,7 +36,7 @@
         "globals": "^16.0.0",
         "husky": "^9.1.7",
         "import-sort-style-module": "^6.0.0",
-        "lucide-solid": "^0.484.0",
+        "lucide-solid": "^0.487.0",
         "nanostores": "^0.11.4",
         "npm-check-updates": "^17.1.16",
         "pocketbase": "^0.25.2",
@@ -835,7 +835,7 @@
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
-    "lucide-solid": ["lucide-solid@0.484.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-j74OCnhQ/kiB8mIEEfyiQQlVhObKBpHwwmXHQ+HeeL8uaVEQi64IjZm8AR4WmXzOH/RDu/3Oggea/4Q402b9sQ=="],
+    "lucide-solid": ["lucide-solid@0.487.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-NkmNhrXiHbeihY1kXMFQBlFP2gxdJMI9Jh7/pvrJmX5q1eMgmz+5bLsckwbbnr2RUiCtl2iIk8gRhQ79LRel/Q=="],
 
     "magic-string": ["magic-string@0.30.17", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0" } }, "sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA=="],
 
