@@ -61,7 +61,7 @@
     "ag-grid-community": "^33.2.1",
     "daisyui": "^5.0.9",
     "eslint": "^9.24.0",
-    "eslint-config-prettier": "^10.1.1",
+    "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.5",
     "eslint-plugin-solid": "^0.14.5",
