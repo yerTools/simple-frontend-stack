@@ -26,11 +26,11 @@ func init() {
 		settings := app.Settings()
 
 		// Configure application meta information
-		settings.Meta.AppName = "ResMon"
-		settings.Meta.AppURL = "https://resmon.de"
+		settings.Meta.AppName = "Simple Frontend Stack"
+		settings.Meta.AppURL = "https://github.com/yerTools/simple-frontend-stack"
 		settings.Meta.HideControls = true
-		settings.Meta.SenderName = "ResMon"
-		settings.Meta.SenderAddress = "app@resmon.de"
+		settings.Meta.SenderName = "Simple Frontend Stack"
+		settings.Meta.SenderAddress = "sfs@ltl.re"
 
 		// Configure log settings
 		settings.Logs.MaxDays = 14  // Keep logs for two weeks

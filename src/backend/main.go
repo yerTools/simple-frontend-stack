@@ -35,10 +35,6 @@ func Main(isGoRun bool, dist fs.FS) {
 		return se.Next()
 	})
 
-	RegisterUserAPI(app)
-	RegisterLegacyImportAPI(app)
-	RegisterWorkClockAPI(app)
-
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
