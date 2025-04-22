@@ -21,8 +21,9 @@ func main() {
 		log.Panicf("failed to create sub fs: %v", err)
 	}
 
-	// loosely check if it was executed using "go run"
-	isGoRun := strings.HasPrefix(os.Args[0], os.TempDir())
+	// detect "go run" execution or allow explicit override
+	isGoRun := os.Getenv("FORCE_GO_RUN") == "1" ||
+		strings.Contains(os.Args[0], os.TempDir())
 
 	backend.Main(isGoRun, dist)
 }

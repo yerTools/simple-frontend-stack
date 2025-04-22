@@ -7,7 +7,11 @@
 # 3. Starting the application
 
 # Fix ownership of mounted volumes (running as root)
-chown -R appuser:appgroup /app/pb_data /app/pb_public /app/pb_hooks /app/pb_migrations
+for dir in /app/pb_data /app/pb_public /app/pb_hooks /app/pb_migrations; do
+  if [ -d "$dir" ]; then
+    chown -R appuser:appgroup "$dir"
+  fi
+done
 
 # Run the application as the non-root appuser
 exec su-exec appuser:appgroup "$@"

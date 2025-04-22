@@ -17,6 +17,8 @@
 package migrations
 
 import (
+	"fmt"
+
 	"github.com/pocketbase/pocketbase/core"
 	m "github.com/pocketbase/pocketbase/migrations"
 )
@@ -43,6 +45,9 @@ func init() {
 		// Configure security settings
 		settings.RateLimits.Enabled = true // Enable rate limiting for API protection
 
-		return app.Save(settings)
+		if err := app.Save(settings); err != nil {
+			return fmt.Errorf("failed to save application settings: %w", err)
+		}
+		return nil
 	}, nil)
 }
