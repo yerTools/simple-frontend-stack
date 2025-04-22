@@ -22,10 +22,16 @@ import {
 
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { Collapsible } from "@kobalte/core";
-import { A, RouteSectionProps, useLocation } from "@solidjs/router";
+import {
+  A,
+  RouteSectionProps,
+  useLocation,
+  useNavigate,
+} from "@solidjs/router";
 import { Observer } from "tailwindcss-intersect";
 
 import { pageList } from "..";
+import { isAuthenticated } from "../services/userApi";
 
 const getBreadcrumbs = () => {
   const location = useLocation();
@@ -146,6 +152,20 @@ const NavigationLinks = (props: {
 };
 
 const Layout = (props: RouteSectionProps): JSX.Element => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Auth guard: redirect unauthenticated users to login, and prevent access to login when authenticated
+  createEffect(() => {
+    const path = location.pathname;
+    if (!isAuthenticated() && path !== "/login") {
+      navigate("/login", { replace: true });
+    }
+    if (isAuthenticated() && path === "/login") {
+      navigate("/work-clock", { replace: true });
+    }
+  });
+
   const [isDarkMode, setIsDarkMode] = createSignal(
     localStorage.getItem("theme") === "solidarity-dark" ||
       (localStorage.getItem("theme") !== "solidarity-light" &&
@@ -253,8 +273,8 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             activeClass="text-primary"
             end={true}
           >
-            <span class="xs:inline hidden">Simple Frontend Stack</span>
-            <span class="xs:hidden">SFS</span>
+            <span class="xs:inline hidden">Resource Monitor</span>
+            <span class="xs:hidden">ResMon</span>
           </A>
         </div>
 
@@ -271,7 +291,9 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             class="btn btn-ghost btn-circle btn-sm sm:btn-md"
             onClick={toggleTheme}
             aria-label={
-              isDarkMode() ? "Switch to light mode" : "Switch to dark mode"
+              isDarkMode() ?
+                "Zum hellen Modus wechseln"
+              : "Zum dunklen Modus wechseln"
             }
           >
             {isDarkMode() ?
@@ -285,7 +307,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
             target="_blank"
             rel="noopener noreferrer"
             class="btn btn-ghost btn-circle btn-sm sm:btn-md"
-            aria-label="GitHub repository"
+            aria-label="GitHub Repository"
           >
             <GitHubIcon class="h-4 w-4 sm:h-5 sm:w-5" />
           </a>
@@ -294,7 +316,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
           <button
             class="btn btn-ghost btn-circle btn-sm sm:btn-md lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen())}
-            aria-label={isMobileMenuOpen() ? "Close menu" : "Open menu"}
+            aria-label={isMobileMenuOpen() ? "Menü schließen" : "Menü öffnen"}
           >
             {isMobileMenuOpen() ?
               <XIcon class="h-4 w-4 sm:h-5 sm:w-5" />
@@ -335,7 +357,9 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
                 <span>
                   <LoadingIcon class="text-primary h-16 w-16" />
                 </span>
-                <p class="mt-4 text-lg font-medium">Loading content...</p>
+                <p class="mt-4 text-lg font-medium">
+                  Inhalte werden geladen...
+                </p>
               </div>
             </div>
           }
@@ -352,7 +376,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
               <AnarchyIcon class="inline" /> {new Date().getFullYear()}{" "}
               <HammerSickleIcon class="inline" />
             </span>{" "}
-            - Free and open-source software - with free as in freedom!{" "}
+            - Freie und quelloffene Software - mit frei im Sinne von Freiheit!{" "}
             <FlagIcon class="inline text-[#ff0000]" />
             <FistIcon class="inline" />
           </p>
@@ -368,7 +392,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
         <button
           onClick={scrollToTop}
           class="btn btn-primary btn-xl btn-circle shadow-lg transition-transform duration-200 hover:scale-110"
-          aria-label="Scroll to top"
+          aria-label="Nach oben scrollen"
         >
           {showElevatorIcon() && <ElevatorIcon class="h-10 w-10" />}
         </button>

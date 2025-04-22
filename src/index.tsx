@@ -1,21 +1,18 @@
 /* @refresh reload */
 import "./styles/general.css";
 
-import WorldIcon from "~icons/bx/world";
-import SolidIcon from "~icons/devicon/solidjs";
-import TailwindIcon from "~icons/devicon/tailwindcss";
-import IconifyIcon from "~icons/line-md/iconify2-static";
-import DaisyUiIcon from "~icons/logos/daisyui-icon";
-import LucideIcon from "~icons/simple-icons/lucide";
-import CodeIcon from "~icons/tabler/code";
+import ClockIcon from "~icons/tabler/clock";
+import DatabaseIcon from "~icons/tabler/database";
+import InfoCircleIcon from "~icons/tabler/info-circle";
 
 import { Component, ComponentProps, For, JSX, lazy } from "solid-js";
 
 import { render } from "solid-js/web";
 
-import { Route, RouteSectionProps, Router } from "@solidjs/router";
+import { Navigate, Route, RouteSectionProps, Router } from "@solidjs/router";
 
-import Layout from "./pages/Layout";
+import Login from "./pages/Login";
+import ProtectedLayout from "./pages/ProtectedLayout";
 
 const root = document.body;
 
@@ -32,38 +29,20 @@ export type PageTree = {
 };
 
 export const pageTree = {
-  "": {
-    title: "Hello World!",
-    component: lazy(() => import("./pages/Index")),
-    icon: WorldIcon,
+  info: {
+    title: "Info",
+    component: lazy(() => import("./pages/Info")),
+    icon: InfoCircleIcon,
   },
-  solid: {
-    title: "SolidJS",
-    icon: SolidIcon,
+  "work-clock": {
+    title: "Stempeluhr",
+    component: lazy(() => import("./pages/WorkClock")),
+    icon: ClockIcon,
   },
-  tailwind: {
-    title: "TailwindCSS",
-    icon: TailwindIcon,
-  },
-  daisyui: {
-    title: "DaisyUI",
-    icon: DaisyUiIcon,
-  },
-  kobalte: {
-    title: "Kobalte",
-    icon: CodeIcon,
-  },
-  lucide: {
-    title: "Lucide Icons",
-    icon: LucideIcon,
-  },
-  iconify: {
-    title: "Iconify",
-    icon: IconifyIcon,
-  },
-  router: {
-    title: "Solid Router",
-    icon: SolidIcon,
+  "legacy-import": {
+    title: "Legacy-Import",
+    component: lazy(() => import("./pages/LegacyImport")),
+    icon: DatabaseIcon,
   },
 } as const;
 
@@ -87,22 +66,32 @@ function flattenPageTree(
 
 export const pageList = flattenPageTree(pageTree);
 
-render(() => {
-  return (
-    <Router root={Layout}>
-      <For
-        each={pageList}
-        children={(page) => (
-          <Route
-            path={page.path}
-            component={page.component}
-          />
-        )}
-      />
+render(
+  () => (
+    <Router>
       <Route
-        path="*404"
-        component={() => <span>404 LOL</span>}
+        path="/login"
+        component={Login}
       />
+      <Route component={ProtectedLayout}>
+        <Route
+          path="/"
+          component={() => <Navigate href="/work-clock" />}
+        />
+        <For each={pageList}>
+          {(page) => (
+            <Route
+              path={page.path}
+              component={page.component}
+            />
+          )}
+        </For>
+        <Route
+          path="*404"
+          component={() => <span>404 LOL</span>}
+        />
+      </Route>
     </Router>
-  );
-}, root);
+  ),
+  root,
+);
