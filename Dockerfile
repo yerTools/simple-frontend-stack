@@ -59,10 +59,12 @@ FROM alpine:latest
 # - unzip: Required for PocketBase's zip features
 # - ca-certificates: Required for HTTPS connections
 # - wget: Required for health check
+# - su-exec: For privilege de-escalation in entrypoint
 RUN apk add --no-cache \
   unzip \
   ca-certificates \
-  wget
+  wget \
+  su-exec
 
 # Add Open Container Initiative (OCI) labels
 LABEL org.opencontainers.image.source=https://github.com/yerTools/simple-frontend-stack
@@ -79,9 +81,17 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN mkdir -p /app/pb_data /app/pb_public /app/pb_hooks /app/pb_migrations && \
   chown -R appuser:appgroup /app
 
+# Copy the entrypoint script
+COPY docker-entrypoint.sh /app/
+RUN chmod +x /app/docker-entrypoint.sh
+
+
 # Copy only the compiled binary from the backend build stage
 # This keeps the final image small and free of build tools/source code
 COPY --from=backend_builder /app/simple_frontend_stack /app/simple_frontend_stack
+
+# Make the binary executable
+RUN chmod +x /app/simple_frontend_stack
 
 # Document the port the application uses
 EXPOSE 8161
@@ -90,15 +100,12 @@ EXPOSE 8161
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8161/ || exit 1
 
-# Make the binary executable and switch to non-root user
-RUN chmod +x /app/simple_frontend_stack
-USER appuser
-
 # Define volumes for persistent data
 VOLUME ["/app/pb_data", "/app/pb_public", "/app/pb_hooks", "/app/pb_migrations"]
 
-# Define the command to run the application
-# Default command runs PocketBase server on all interfaces
+# Define the entrypoint and command to run the application
+# Note: We don't use USER appuser because entrypoint needs to start as root
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["/app/simple_frontend_stack", "serve", "--http=0.0.0.0:8161"]
 
 # Build this image with:
