@@ -196,6 +196,9 @@ jobs:
     name: 🛠️ Build Platform Binaries
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
+      actions: write
     strategy:
       matrix:
         os: [linux, windows, darwin, freebsd]
@@ -274,6 +277,9 @@ jobs:
     name: 📦 Create Frontend Dist Artifact
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
+      actions: write
     steps:
       - name: 📥 Checkout Repository Code
         uses: actions/checkout@v4
