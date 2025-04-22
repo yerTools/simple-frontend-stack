@@ -186,7 +186,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/res-mon/sfs-res-mon:${{ steps.version.outputs.TAG }}
+          tags: ghcr.io/yertools/simple-frontend-stack:${{ steps.version.outputs.TAG }}
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/386,linux/riscv64
           cache-from: type=local,src=/tmp/.buildx-cache
