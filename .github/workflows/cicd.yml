@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔧 Setup Go Runtime Environment
         uses: actions/setup-go@v5
@@ -98,7 +98,7 @@ jobs:
       id-token: write
     steps:
       - name: 📥 Download Frontend Build Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: frontend-dist
           path: dist
@@ -129,7 +129,7 @@ jobs:
       pull-requests: read
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🏷️ Extract Version Information
         id: version
@@ -220,7 +220,7 @@ jobs:
       GO111MODULE: "on"
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔧 Setup Go Runtime Environment
         uses: actions/setup-go@v5
@@ -232,7 +232,7 @@ jobs:
         run: go mod download
 
       - name: 📥 Download Frontend Dist Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: frontend-dist
           path: dist
@@ -282,7 +282,7 @@ jobs:
       actions: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🥟 Setup Bun JavaScript Runtime
         uses: oven-sh/setup-bun@v2
@@ -319,10 +319,10 @@ jobs:
       contents: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 📥 Download All Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: release-artifacts
 
