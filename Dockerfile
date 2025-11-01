@@ -23,7 +23,7 @@ RUN bun run frontend:build
 
 # STAGE 2: Backend Build
 # Uses Go to compile the backend service into a static binary
-FROM --platform=$BUILDPLATFORM golang:1.24-alpine AS backend_builder
+FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS backend_builder
 
 # Install necessary system dependencies
 RUN apk add --no-cache \
