@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔧 Setup Go Runtime Environment
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.24"
           cache: true
@@ -72,13 +72,13 @@ jobs:
         run: bun run lint-check
 
       - name: 📤 Upload Frontend Distribution Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: frontend-dist
           path: dist
 
       - name: 📤 Upload Go Binary Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: go-binaries
           path: |
@@ -98,7 +98,7 @@ jobs:
       id-token: write
     steps:
       - name: 📥 Download Frontend Build Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: frontend-dist
           path: dist
@@ -110,7 +110,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: 📤 Upload Pages Deployment Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: "./dist"
 
@@ -129,7 +129,7 @@ jobs:
       pull-requests: read
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🏷️ Extract Version Information
         id: version
@@ -220,10 +220,10 @@ jobs:
       GO111MODULE: "on"
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔧 Setup Go Runtime Environment
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.24"
           cache: true
@@ -232,7 +232,7 @@ jobs:
         run: go mod download
 
       - name: 📥 Download Frontend Dist Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: frontend-dist
           path: dist
@@ -267,7 +267,7 @@ jobs:
           ls -lah build/
 
       - name: 📤 Upload Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.os }}-${{ matrix.arch }}
           path: build/simple-frontend-stack_${{ matrix.os }}_${{ matrix.arch }}*
@@ -282,7 +282,7 @@ jobs:
       actions: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🥟 Setup Bun JavaScript Runtime
         uses: oven-sh/setup-bun@v2
@@ -304,7 +304,7 @@ jobs:
         run: bun run frontend:build
 
       - name: 📤 Upload Dist Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: frontend-dist-standalone
           path: dist
@@ -319,10 +319,10 @@ jobs:
       contents: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 📥 Download All Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: release-artifacts
 
