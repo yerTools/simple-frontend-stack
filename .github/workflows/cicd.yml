@@ -216,6 +216,8 @@ jobs:
             arch: riscv64
           - os: freebsd
             arch: riscv64
+          - os: freebsd
+            arch: 386
     env:
       GO111MODULE: "on"
     steps:
