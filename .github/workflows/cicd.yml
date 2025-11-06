@@ -201,7 +201,7 @@ jobs:
       actions: write
     strategy:
       matrix:
-        os: [linux, windows, darwin, freebsd]
+        os: [linux, windows, darwin]
         arch: [386, amd64, arm, arm64, riscv64]
         exclude:
           - os: windows
@@ -216,8 +216,6 @@ jobs:
             arch: riscv64
           - os: freebsd
             arch: riscv64
-          - os: freebsd
-            arch: 386
     env:
       GO111MODULE: "on"
     steps:
