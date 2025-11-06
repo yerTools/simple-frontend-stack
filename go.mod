@@ -1,6 +1,6 @@
 module github.com/yerTools/simple-frontend-stack
 
-go 1.24.1
+go 1.25.3
 
 require github.com/pocketbase/pocketbase v0.28.1
 
