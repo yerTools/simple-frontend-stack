@@ -2,6 +2,7 @@
 
 ## Delete
 
+- [`CHANGE_ME.md`](./CHANGE_ME.md)
 - [`README.md`](./README.md)
 - [`index.tsx`](./src/index.tsx)
 
