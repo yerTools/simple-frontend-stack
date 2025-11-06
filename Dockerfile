@@ -1,4 +1,4 @@
-# Multi-stage build Dockerfile for Simple Frontend Stack
+# Multi-stage build Dockerfile
 # This approach creates a lightweight final image without build dependencies
 
 # STAGE 1: Frontend Build
