@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
-	"syscall"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
@@ -25,23 +24,23 @@ func (f FSList) Open(name string) (fs.File, error) {
 	return nil, os.ErrNotExist
 }
 
-func newPocketBase(isGoRun bool, dist fs.FS) *pocketbase.PocketBase {
+func newPocketBase(isDev bool, dist fs.FS) *pocketbase.PocketBase {
 	app := pocketbase.NewWithConfig(
 		pocketbase.Config{
-			DefaultDev: isGoRun,
+			DefaultDev: isDev,
 		},
 	)
 
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		// enable auto creation of migration files when making collection changes in the Dashboard
-		// (the isGoRun check is to enable it only during development)
-		Automigrate: isGoRun,
+		// (the is dev check is to enable it only during development)
+		Automigrate: isDev,
 
 		Dir: "pb_data/../src/backend/migrations",
 	})
 
 	var fsList FSList
-	if app.IsDev() {
+	if isDev {
 		fsList = append(fsList, os.DirFS("dist"), os.DirFS("pb_public"), dist)
 	} else {
 		fsList = append(fsList, dist, os.DirFS("pb_public"))
@@ -60,35 +59,33 @@ func startAndWait(ctx context.Context, cancelCtx context.CancelFunc, app *pocket
 	errChan := make(chan error, 1)
 
 	go func() {
-		if err := app.Start(); err != nil {
-			errChan <- err
-		}
+		errChan <- app.Start()
 		cancelCtx()
 		close(errChan)
 	}()
 
 	<-ctx.Done()
 
-	killErr := syscall.Kill(syscall.Getpid(), syscall.SIGINT)
-	if killErr != nil {
-		return fmt.Errorf("failed to send interrupt signal to PocketBase: %w", killErr)
+	terminationErr := app.OnTerminate().Trigger(&core.TerminateEvent{App: app})
+	if terminationErr != nil {
+		terminationErr = fmt.Errorf("failed to terminate PocketBase: %w", terminationErr)
 	}
 
-	pbErr, ok := <-errChan
-	if ok {
+	pbErr := <-errChan
+	if pbErr != nil {
 		return fmt.Errorf("failed to start PocketBase: %w", pbErr)
 	}
-	return killErr
+	return terminationErr
 }
 
 func Main(
 	ctx context.Context,
 	cancelCtx context.CancelFunc,
-	killCtx context.Context,
-	isGoRun bool,
+	shutdownCtx context.Context,
+	isDev bool,
 	dist fs.FS,
 ) error {
-	app := newPocketBase(isGoRun, dist)
+	app := newPocketBase(isDev, dist)
 
 	return startAndWait(ctx, cancelCtx, app)
 }

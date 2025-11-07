@@ -24,34 +24,36 @@ func inContext(
 	callback func(
 		ctx context.Context,
 		cancelCtx context.CancelFunc,
-		killCtx context.Context,
+		shutdownCtx context.Context,
 	),
 ) {
-	killCtx, cancelKill := context.WithCancel(context.Background())
-	defer cancelKill()
+	shutdownCtx, cancelShutdown := context.WithCancel(context.Background())
+	defer cancelShutdown()
 
-	ctx, cancelCtx := signal.NotifyContext(killCtx,
+	ctx, cancelCtx := signal.NotifyContext(shutdownCtx,
 		os.Interrupt,
 		os.Kill,
 	)
 
 	go func() {
 		<-ctx.Done()
+		log.Printf("Application context canceled. Waiting up to %s for graceful shutdown...\n", timeout)
 
 		timeoutTimer := time.After(timeout)
 
 		select {
 		case <-timeoutTimer:
-		case <-killCtx.Done():
+			log.Printf("Graceful shutdown timeout of %s reached. Forcing panic in %s...\n", timeout, panicTimeout)
+		case <-shutdownCtx.Done():
 		}
 
-		cancelKill()
+		cancelShutdown()
 
 		<-time.After(panicTimeout)
-		log.Panicf("forced panic after timeout of %s", panicTimeout)
+		log.Panicf("Forced panic after timeout of %s", panicTimeout)
 	}()
 
-	callback(ctx, cancelCtx, killCtx)
+	callback(ctx, cancelCtx, shutdownCtx)
 }
 
 func main() {
@@ -61,10 +63,10 @@ func main() {
 	}
 
 	// detect "go run" execution or allow explicit override
-	isGoRun := os.Getenv("FORCE_GO_RUN") == "1" ||
+	isDev := os.Getenv("FORCE_DEV") == "1" ||
 		strings.Contains(os.Args[0], os.TempDir())
 
-	log.Printf("Application is starting (is go run: %v)...\n", isGoRun)
+	log.Printf("Application is starting (is dev: %v)...\n", isDev)
 
 	inContext(
 		10*time.Second,
@@ -72,9 +74,9 @@ func main() {
 		func(
 			ctx context.Context,
 			cancelCtx context.CancelFunc,
-			killCtx context.Context,
+			shutdownCtx context.Context,
 		) {
-			err = backend.Main(ctx, cancelCtx, killCtx, isGoRun, dist)
+			err = backend.Main(ctx, cancelCtx, shutdownCtx, isDev, dist)
 		})
 
 	if err != nil {
