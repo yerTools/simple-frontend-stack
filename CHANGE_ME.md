@@ -1,5 +1,7 @@
 # Change me
 
+**You can configure this app within [`app.config.json`](./config/app.config.json).**
+
 ## Delete
 
 - [`CHANGE_ME.md`](./CHANGE_ME.md)
@@ -8,7 +10,7 @@
 
 ## Rename
 
-- [`package.jsno`](./package.json)
+- [`package.json`](./package.json)
   - `"name": "simple-frontend-stack",`
   - `"version": "0.0.0",`
   - `"description": "",`
@@ -32,10 +34,3 @@
   - `BIN_NAME=simple-frontend-stack_${{ matrix.os }}_${{ matrix.arch }}`
   - `path: build/simple-frontend-stack_${{ matrix.os }}_${{ matrix.arch }}*`
   - `find release-artifacts -type f -name "simple-frontend-stack_*" | while read file; do`
-- [`index.html`](./src/index.html)
-  - `<title>Simple Frontend Stack</title>`
-- [`0000001000_default_application_settings.go`](./src/backend/migrations/0000001000_default_application_settings.go)
-  - `settings.Meta.AppName = "Simple Frontend Stack"`
-  - `settings.Meta.AppURL = "https://github.com/yerTools/simple-frontend-stack"`
-  - `settings.Meta.SenderName = "Simple Frontend Stack"`
-  - `settings.Meta.SenderAddress = "sfs@ltl.re"`

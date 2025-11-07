@@ -1,7 +1,7 @@
 {
   "name": "simple-frontend-stack",
   "version": "0.0.0",
-  "description": "",
+  "description": "A modern frontend focused development stack with PocketBase as its backend",
   "type": "module",
   "scripts": {
     "backend:build": "go build",

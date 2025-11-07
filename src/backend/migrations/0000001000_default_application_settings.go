@@ -21,18 +21,25 @@ import (
 
 	"github.com/pocketbase/pocketbase/core"
 	m "github.com/pocketbase/pocketbase/migrations"
+	"github.com/yerTools/simple-frontend-stack/config"
+	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 )
 
 func init() {
 	m.Register(func(app core.App) error {
+		appConfig, err := configuration.ParseAppConfig(config.AppConfigJSON)
+		if err != nil {
+			return fmt.Errorf("failed to parse embedded 'app.config.json': %w", err)
+		}
+
 		settings := app.Settings()
 
 		// Configure application meta information
-		settings.Meta.AppName = "Simple Frontend Stack"
-		settings.Meta.AppURL = "https://github.com/yerTools/simple-frontend-stack"
+		settings.Meta.AppName = appConfig.Name
+		settings.Meta.AppURL = appConfig.Website
 		settings.Meta.HideControls = true
-		settings.Meta.SenderName = "Simple Frontend Stack"
-		settings.Meta.SenderAddress = "sfs@ltl.re"
+		settings.Meta.SenderName = appConfig.PocketBase.Email.SenderName
+		settings.Meta.SenderAddress = appConfig.PocketBase.Email.SenderAddress
 
 		// Configure log settings
 		settings.Logs.MaxDays = 14  // Keep logs for two weeks

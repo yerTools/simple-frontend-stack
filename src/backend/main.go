@@ -10,6 +10,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 )
 
 type FSList []fs.FS
@@ -84,6 +85,7 @@ func Main(
 	shutdownCtx context.Context,
 	isDev bool,
 	dist fs.FS,
+	appConfig configuration.AppConfig,
 ) error {
 	app := newPocketBase(isDev, dist)
 

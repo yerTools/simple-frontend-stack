@@ -10,8 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/yerTools/simple-frontend-stack/config"
 	"github.com/yerTools/simple-frontend-stack/src/backend"
 
+	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 	_ "github.com/yerTools/simple-frontend-stack/src/backend/migrations" // Import migrations for side effects
 )
 
@@ -57,9 +59,16 @@ func inContext(
 }
 
 func main() {
+	println("MAIN")
+
 	dist, err := fs.Sub(dist, "dist")
 	if err != nil {
 		log.Panicf("failed to create sub fs: %v", err)
+	}
+
+	appConfig, err := configuration.ParseAppConfig(config.AppConfigJSON)
+	if err != nil {
+		log.Panicf("failed to parse embedded 'app.config.json': %v", err)
 	}
 
 	// detect "go run" execution or allow explicit override
@@ -76,7 +85,7 @@ func main() {
 			cancelCtx context.CancelFunc,
 			shutdownCtx context.Context,
 		) {
-			err = backend.Main(ctx, cancelCtx, shutdownCtx, isDev, dist)
+			err = backend.Main(ctx, cancelCtx, shutdownCtx, isDev, dist, appConfig)
 		})
 
 	if err != nil {

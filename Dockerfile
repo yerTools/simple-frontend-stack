@@ -40,6 +40,7 @@ RUN go mod download
 
 # Copy main Go files and backend code
 COPY main.go .
+COPY config/ ./config/
 COPY src/backend/ ./src/backend/
 # Copy the frontend build artifacts from the previous stage
 COPY --from=frontend_builder /app/dist/ ./dist/
@@ -68,7 +69,7 @@ RUN apk add --no-cache \
 
 # Add Open Container Initiative (OCI) labels
 LABEL org.opencontainers.image.source=https://github.com/yerTools/simple-frontend-stack
-LABEL org.opencontainers.image.description="A lightweight frontend stack for rapid web app development powered by SolidJS, TailwindCSS, and DaisyUI. Includes optional PocketBase backend with Bun and Vite for blazing-fast development workflow."
+LABEL org.opencontainers.image.description="A modern frontend focused development stack with PocketBase as its backend"
 LABEL org.opencontainers.image.licenses=MIT
 
 # Set the working directory
