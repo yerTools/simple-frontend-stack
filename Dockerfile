@@ -13,6 +13,7 @@ WORKDIR /app
 COPY bun.lock package.json tsconfig.json vite.config.ts ./
 
 # Copy source code
+COPY config/ ./config/
 COPY src/ ./src/
 
 # Install dependencies with Bun (much faster than npm/yarn)
