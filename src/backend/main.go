@@ -13,19 +13,11 @@ import (
 	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 )
 
-type FSList []fs.FS
-
-func (f FSList) Open(name string) (fs.File, error) {
-	for _, fs := range f {
-		file, err := fs.Open(name)
-		if err == nil {
-			return file, nil
-		}
-	}
-	return nil, os.ErrNotExist
-}
-
-func newPocketBase(isDev bool, dist fs.FS) *pocketbase.PocketBase {
+func newPocketBase(
+	isDev bool,
+	dist fs.FS,
+	cfg configuration.AppConfig,
+) (*pocketbase.PocketBase, error) {
 	app := pocketbase.NewWithConfig(
 		pocketbase.Config{
 			DefaultDev: isDev,
@@ -40,20 +32,43 @@ func newPocketBase(isDev bool, dist fs.FS) *pocketbase.PocketBase {
 		Dir: "pb_data/../src/backend/migrations",
 	})
 
+	var htmlVarMap map[string]string
+	var err error
+
+	if cfg.Server.ReplaceHTMLVars {
+		htmlVarMap, err = configuration.HTMLMap()
+		if err != nil {
+			return nil, fmt.Errorf("failed to load HTML variable map: %w", err)
+		}
+	}
+
 	var fsList FSList
 	if isDev {
-		fsList = append(fsList, os.DirFS("dist"), os.DirFS("pb_public"), dist)
+		fsList = NewFSList(
+			isDev,
+			cfg,
+			htmlVarMap,
+			FSItem{fs: os.DirFS("dist")},
+			FSItem{fs: os.DirFS("pb_public")},
+			FSItem{fs: dist, immutable: true},
+		)
 	} else {
-		fsList = append(fsList, dist, os.DirFS("pb_public"))
+		fsList = NewFSList(
+			isDev,
+			cfg,
+			htmlVarMap,
+			FSItem{fs: dist, immutable: true},
+			FSItem{fs: os.DirFS("pb_public")},
+		)
 	}
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		se.Router.GET("/{path...}", apis.Static(fsList, true))
+		se.Router.GET("/{path...}", apis.Static(&fsList, cfg.Server.IndexFallback))
 
 		return se.Next()
 	})
 
-	return app
+	return app, nil
 }
 
 func startAndWait(ctx context.Context, cancelCtx context.CancelFunc, app *pocketbase.PocketBase) error {
@@ -85,9 +100,12 @@ func Main(
 	shutdownCtx context.Context,
 	isDev bool,
 	dist fs.FS,
-	appConfig configuration.AppConfig,
+	cfg configuration.AppConfig,
 ) error {
-	app := newPocketBase(isDev, dist)
+	app, err := newPocketBase(isDev, dist, cfg)
+	if err != nil {
+		return fmt.Errorf("failed to create PocketBase instance: %w", err)
+	}
 
 	return startAndWait(ctx, cancelCtx, app)
 }

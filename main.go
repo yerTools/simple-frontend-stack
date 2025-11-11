@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yerTools/simple-frontend-stack/config"
 	"github.com/yerTools/simple-frontend-stack/src/backend"
 
 	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
@@ -59,20 +58,18 @@ func inContext(
 }
 
 func main() {
-	println("MAIN")
-
 	dist, err := fs.Sub(dist, "dist")
 	if err != nil {
 		log.Panicf("failed to create sub fs: %v", err)
 	}
 
-	appConfig, err := configuration.ParseAppConfig(config.AppConfigJSON)
+	appConfig, err := configuration.Get()
 	if err != nil {
-		log.Panicf("failed to parse embedded 'app.config.json': %v", err)
+		log.Panicf("failed to load app config: %v", err)
 	}
 
 	// detect "go run" execution or allow explicit override
-	isDev := os.Getenv("FORCE_DEV") == "1" ||
+	isDev := appConfig.Server.ForceDevMode ||
 		strings.Contains(os.Args[0], os.TempDir())
 
 	log.Printf("Application is starting (is dev: %v)...\n", isDev)

@@ -21,25 +21,24 @@ import (
 
 	"github.com/pocketbase/pocketbase/core"
 	m "github.com/pocketbase/pocketbase/migrations"
-	"github.com/yerTools/simple-frontend-stack/config"
 	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 )
 
 func init() {
 	m.Register(func(app core.App) error {
-		appConfig, err := configuration.ParseAppConfig(config.AppConfigJSON)
+		appConfig, err := configuration.Get()
 		if err != nil {
-			return fmt.Errorf("failed to parse embedded 'app.config.json': %w", err)
+			return fmt.Errorf("failed to load app config: %w", err)
 		}
 
 		settings := app.Settings()
 
 		// Configure application meta information
-		settings.Meta.AppName = appConfig.Name
-		settings.Meta.AppURL = appConfig.Website
+		settings.Meta.AppName = appConfig.General.Name
+		settings.Meta.AppURL = appConfig.General.URL
 		settings.Meta.HideControls = true
-		settings.Meta.SenderName = appConfig.PocketBase.Email.SenderName
-		settings.Meta.SenderAddress = appConfig.PocketBase.Email.SenderAddress
+		settings.Meta.SenderName = appConfig.Server.Email.SenderName
+		settings.Meta.SenderAddress = appConfig.Server.Email.SenderAddress
 
 		// Configure log settings
 		settings.Logs.MaxDays = 14  // Keep logs for two weeks

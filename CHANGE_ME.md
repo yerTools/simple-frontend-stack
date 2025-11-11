@@ -1,6 +1,6 @@
 # Change me
 
-**You can configure this app within [`app.config.json`](./config/app.config.json).**
+**You can configure this app within [`app.config.jsonc`](./config/app.config.jsonc).**
 
 ## Delete
 

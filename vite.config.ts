@@ -1,5 +1,4 @@
 import tailwindcss from "@tailwindcss/vite";
-import { readFileSync } from "fs";
 import { resolve } from "path";
 import { Options } from "unplugin-icons/types";
 import Icons from "unplugin-icons/vite";
@@ -10,29 +9,11 @@ import lqip from "vite-plugin-lqip";
 import solidPlugin from "vite-plugin-solid";
 import webfontDownload from "vite-plugin-webfont-dl";
 
-interface AppConfig {
-  name: string;
-  description: string;
-  author: string;
-  version: string;
-}
-
 const root = resolve(__dirname, "src");
-const appConfig = JSON.parse(
-  readFileSync(resolve(__dirname, "config/app.config.json"), "utf-8"),
-) as AppConfig;
 
 export default defineConfig({
   root: root,
   plugins: [
-    {
-      name: "html-transform",
-      transformIndexHtml(html) {
-        return html
-          .replace("%VITE_APP_NAME%", appConfig.name)
-          .replace("%VITE_APP_DESCRIPTION%", appConfig.description);
-      },
-    },
     webfontDownload(undefined, {
       injectAsStyleTag: false,
     }),

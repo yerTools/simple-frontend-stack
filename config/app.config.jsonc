@@ -1,0 +1,54 @@
+{
+  "general": {
+    // The application name.
+    "name": "Simple Frontend Stack",
+    // A brief description of the application.
+    "description": "A modern frontend focused development stack with PocketBase as its backend",
+    // The current version of the application.
+    "version": "0.0.0",
+    // The URL this application is hosted at.
+    "url": "https://sfs.ltl.re/",
+  },
+  "server": {
+    "http": {
+      // TCP address to listen for the HTTP server.
+      "address": "0.0.0.0",
+      // TCP port to listen for the HTTP server.
+      "port": 8161,
+      // Enable or disable the HTTP server.
+      "enabled": true,
+    },
+    "https": {
+      // TCP address to listen for the HTTPS server.
+      "address": "0.0.0.0",
+      // TCP port to listen for the HTTPS server.
+      "port": 8443,
+      // Enable or disable the HTTPS server.
+      "enabled": false,
+    },
+    "email": {
+      // The sender name used in the "From" field of emails.
+      "senderName": "Simple Frontend Stack",
+      // The sender email address used in the "From" field of emails.
+      "senderAddress": "sfs@ltl.re",
+    },
+    "database": {
+      // The default `SELECT` queries timeout in seconds.
+      "queryTimeoutSeconds": 30,
+    },
+    // An encryption key with a length of 32 characters used to encrypt app settings.
+    "encryptionKey": null,
+    // Specifying a domain name will issue a Let's encrypt certificate for it.
+    "domains": [],
+    // CORS allowed domain origins list.
+    "allowedOrigins": ["*"],
+    // Force the application to run in development mode.
+    "forceDevMode": false,
+    // Enable SPA index fallback for unknown routes.
+    "indexFallback": true,
+    // Enable immutable caching for static file server.
+    "staticFileServerImmutable": true,
+    // Enable replacing HTML variables in served HTML files.
+    "replaceHTMLVars": true,
+  },
+}
