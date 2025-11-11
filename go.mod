@@ -2,7 +2,12 @@ module github.com/yerTools/simple-frontend-stack
 
 go 1.25.3
 
-require github.com/pocketbase/pocketbase v0.31.0
+require (
+	github.com/ilyakaznacheev/cleanenv v1.5.0
+	github.com/joho/godotenv v1.5.1
+	github.com/marcozac/go-jsonc v0.1.1
+	github.com/pocketbase/pocketbase v0.32.0
+)
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
@@ -17,11 +22,8 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/marcozac/go-jsonc v0.1.1 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
