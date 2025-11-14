@@ -46,6 +46,9 @@ COPY src/backend/ ./src/backend/
 # Copy the frontend build artifacts from the previous stage
 COPY --from=frontend_builder /app/dist/ ./dist/
 
+# Run tests to verify code integrity
+RUN go test ./...
+
 # Build the Go application with optimizations:
 # - CGO_ENABLED=0: Creates statically linked binary
 # - GOOS/GOARCH: Target the specific OS/architecture from build args

@@ -61,9 +61,8 @@ jobs:
       - name: 💅 Verify Code Formatting
         run: bun run format-check
 
-      # Add test step
-      # - name: 🧠 Run Automated Tests
-      #   run: bun run test || echo "No tests specified - continuing"
+      - name: 🧠 Run Automated Tests
+        run: bun run test
 
       - name: 🏗️ Build Fullstack Application
         run: bun run build

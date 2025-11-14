@@ -11,7 +11,7 @@ import (
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
-	"github.com/marcozac/go-jsonc"
+	"github.com/komkom/jsonc/jsonc"
 	"github.com/yerTools/simple-frontend-stack/config"
 )
 
@@ -29,6 +29,22 @@ func ParseAppConfig(data []byte) (AppConfig, error) {
 	return cfg, nil
 }
 
+func sanitizeJSONC(data []byte) ([]byte, error) {
+	appConfigJSONCReader := bytes.NewReader(config.AppConfigJSONC)
+
+	jsoncFilter, err := jsonc.New(appConfigJSONCReader, true, "")
+	if err != nil {
+		return nil, fmt.Errorf("failed to create JSONC filter: %w", err)
+	}
+
+	sanitizedJSON, err := io.ReadAll(jsoncFilter)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read JSONC filter: %w", err)
+	}
+
+	return sanitizedJSON, nil
+}
+
 func Get() (AppConfig, error) {
 	appConfigMutex.Lock()
 	defer appConfigMutex.Unlock()
@@ -36,7 +52,7 @@ func Get() (AppConfig, error) {
 		return loadedAppConfig, nil
 	}
 
-	sanitizedAppConfigJSON, err := jsonc.Sanitize(config.AppConfigJSONC)
+	sanitizedAppConfigJSON, err := sanitizeJSONC(config.AppConfigJSONC)
 	if err != nil {
 		return AppConfig{}, fmt.Errorf("failed to sanitize embedded 'app.config.jsonc': %w", err)
 	}
@@ -70,7 +86,7 @@ func Get() (AppConfig, error) {
 			return AppConfig{}, fmt.Errorf("failed to read existing 'app.config.jsonc' from '%s': %w", appConfigPath, err)
 		}
 
-		sanitizedData, err := jsonc.Sanitize(data)
+		sanitizedData, err := sanitizeJSONC(data)
 		if err != nil {
 			return AppConfig{}, fmt.Errorf("failed to sanitize existing 'app.config.jsonc' from '%s': %w", appConfigPath, err)
 		}

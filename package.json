@@ -12,6 +12,7 @@
     "backend:lint-check": "go vet ./...",
     "backend:serve": "go run main.go serve --http=0.0.0.0:8161",
     "backend:upgrade": "go get -u -t ./... && go mod tidy",
+    "backend:test": "go test ./... -v",
     "frontend:build": "bun x vite build",
     "frontend:dev": "bun run frontend:watch & bun run frontend:serve",
     "frontend:format": "bun x prettier --write \"src/**/*.{ts,tsx,html,css,json}\"",
@@ -35,7 +36,8 @@
     "type-check": "bun run frontend:type-check",
     "update": "bun run frontend:update",
     "upgrade": "bun run frontend:upgrade && bun run backend:upgrade",
-    "prepare": "bun x husky"
+    "prepare": "bun x husky",
+    "test": "bun run backend:test"
   },
   "license": "MIT",
   "devDependencies": {
