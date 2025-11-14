@@ -61,11 +61,11 @@ jobs:
       - name: 💅 Verify Code Formatting
         run: bun run format-check
 
-      - name: 🧠 Run Automated Tests
-        run: bun run test
-
       - name: 🏗️ Build Fullstack Application
         run: bun run build
+
+      - name: 🧠 Run Automated Tests
+        run: bun run test
 
       - name: 🔎 Run Code Linting Checks
         run: bun run lint-check
