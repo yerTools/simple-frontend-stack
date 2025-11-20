@@ -8,6 +8,8 @@
     "version": "0.0.0",
     // The URL this application is hosted at.
     "url": "https://sfs.ltl.re/",
+    // Initial admin user registration form active.
+    "initialAdminRegistration": false,
   },
   "server": {
     "http": {

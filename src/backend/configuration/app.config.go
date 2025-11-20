@@ -8,10 +8,11 @@ type AppConfig struct {
 
 // GeneralConfig holds general application metadata.
 type GeneralConfig struct {
-	Name        string `json:"name" env:"APP_GENERAL_NAME" env-description:"The application name."`
-	Description string `json:"description" env:"APP_GENERAL_DESCRIPTION" env-description:"A brief description of the application."`
-	Version     string `json:"version" env:"APP_GENERAL_VERSION" env-description:"The current version of the application."`
-	URL         string `json:"url" env:"APP_GENERAL_URL" env-description:"The URL this application is hosted at."`
+	Name                     string `json:"name" env:"APP_GENERAL_NAME" env-description:"The application name."`
+	Description              string `json:"description" env:"APP_GENERAL_DESCRIPTION" env-description:"A brief description of the application."`
+	Version                  string `json:"version" env:"APP_GENERAL_VERSION" env-description:"The current version of the application."`
+	URL                      string `json:"url" env:"APP_GENERAL_URL" env-description:"The URL this application is hosted at."`
+	InitialAdminRegistration bool   `json:"initialAdminRegistration" env:"APP_GENERAL_INITIAL_ADMIN_REGISTRATION" env-default:"false" env-description:"Enable the initial admin user registration form."`
 }
 
 // ServerConfig groups server-specific settings.

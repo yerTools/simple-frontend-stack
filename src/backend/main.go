@@ -10,6 +10,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/yerTools/simple-frontend-stack/src/backend/api"
 	"github.com/yerTools/simple-frontend-stack/src/backend/configuration"
 )
 
@@ -106,6 +107,8 @@ func Main(
 	if err != nil {
 		return fmt.Errorf("failed to create PocketBase instance: %w", err)
 	}
+
+	api.RegisterUserAPI(app, cfg)
 
 	return startAndWait(ctx, cancelCtx, app)
 }
