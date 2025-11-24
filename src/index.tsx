@@ -9,29 +9,13 @@ import DaisyUiIcon from "~icons/logos/daisyui-icon";
 import LucideIcon from "~icons/simple-icons/lucide";
 import CodeIcon from "~icons/tabler/code";
 
-import { Component, ComponentProps, For, JSX, lazy } from "solid-js";
+import { lazy } from "solid-js";
 
 import { render } from "solid-js/web";
 
-import { Route, RouteSectionProps, Router } from "@solidjs/router";
+import { App, transformPageTree } from "./router";
 
-import Layout from "./pages/Layout";
-
-const root = document.body;
-
-interface PageDefinition {
-  title: string;
-  component?: Component<RouteSectionProps<unknown>>;
-  icon?: (props: ComponentProps<"svg">) => JSX.Element;
-}
-
-export type PageTree = {
-  [key: string]: PageDefinition & {
-    children?: PageTree;
-  };
-};
-
-export const pageTree = {
+export const [pageList, wellKnownPages, pageTree] = transformPageTree({
   "": {
     title: "Hello World!",
     component: lazy(() => import("./pages/Index")),
@@ -39,70 +23,47 @@ export const pageTree = {
   },
   solid: {
     title: "SolidJS",
+    component: () => <span>SolidJS Page</span>,
     icon: SolidIcon,
   },
   tailwind: {
     title: "TailwindCSS",
+    component: () => <span>TailwindCSS Page</span>,
     icon: TailwindIcon,
   },
   daisyui: {
     title: "DaisyUI",
+    component: () => <span>DaisyUI Page</span>,
     icon: DaisyUiIcon,
   },
   kobalte: {
     title: "Kobalte",
+    component: () => <span>Kobalte Page</span>,
     icon: CodeIcon,
   },
   lucide: {
     title: "Lucide Icons",
+    component: () => <span>Lucide Icons Page</span>,
     icon: LucideIcon,
   },
   iconify: {
     title: "Iconify",
+    component: () => <span>Iconify Page</span>,
     icon: IconifyIcon,
   },
   router: {
     title: "Solid Router",
+    component: () => <span>Solid Router Page</span>,
     icon: SolidIcon,
   },
-} as const;
+} as const);
 
-function flattenPageTree(
-  pageTree: PageTree,
-): ({ path: string } & PageDefinition)[] {
-  const result: ({ path: string } & PageDefinition)[] = [];
-  for (const [key, value] of Object.entries(pageTree)) {
-    result.push({ path: `/${key}`, ...value });
-    if (value.children) {
-      result.push(
-        ...flattenPageTree(value.children).map((child) => ({
-          ...child,
-          path: key === "" ? child.path : `/${key}${child.path}`,
-        })),
-      );
-    }
-  }
-  return result;
-}
-
-export const pageList = flattenPageTree(pageTree);
-
-render(() => {
-  return (
-    <Router root={Layout}>
-      <For
-        each={pageList}
-        children={(page) => (
-          <Route
-            path={page.path}
-            component={page.component}
-          />
-        )}
-      />
-      <Route
-        path="*404"
-        component={() => <span>404 LOL</span>}
-      />
-    </Router>
-  );
-}, root);
+render(
+  () => (
+    <App
+      wellKnown={wellKnownPages}
+      pageList={pageList}
+    />
+  ),
+  document.body,
+);

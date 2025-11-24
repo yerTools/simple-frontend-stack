@@ -139,6 +139,7 @@ export async function loginUser(
 ): Promise<Result<boolean, LoginError>> {
   try {
     await pb.collection("users").authWithPassword(email, password);
+    setCanCreateAdmin(false);
     return ok(true);
   } catch (error) {
     const inner = error instanceof ClientResponseError ? error : error;

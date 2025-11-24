@@ -25,7 +25,7 @@ import { Collapsible } from "@kobalte/core";
 import { A, RouteSectionProps, useLocation } from "@solidjs/router";
 import { Observer } from "tailwindcss-intersect";
 
-import { pageList } from "..";
+import { pageList } from "../..";
 
 const getBreadcrumbs = () => {
   const location = useLocation();
@@ -326,7 +326,7 @@ const Layout = (props: RouteSectionProps): JSX.Element => {
 
       <main
         ref={mainRef}
-        class="container mx-auto max-w-5xl flex-grow px-4 py-8"
+        class="container mx-auto max-w-5xl grow px-4 py-8"
       >
         <Suspense
           fallback={

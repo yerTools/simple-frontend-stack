@@ -27,7 +27,7 @@ import { Component, For, JSX, Show, createSignal } from "solid-js";
 import { createAutoAnimate } from "@formkit/auto-animate/solid";
 import { Highlight, Language } from "solid-highlight";
 
-import { ObserverProvider } from "./Layout";
+import { ObserverProvider } from "./well-known/Layout";
 
 const features = [
   {
@@ -787,7 +787,7 @@ const Index: Component = (): JSX.Element => {
   return (
     <div class="space-y-16 pb-16">
       {/* Hero Section */}
-      <section class="hero from-primary to-secondary text-primary-content bg-gradient-to-r py-10 sm:py-20">
+      <section class="hero from-primary to-secondary text-primary-content bg-linear-to-r py-10 sm:py-20">
         <div class="hero-content text-center">
           <div class="max-w-3xl px-2">
             <h1 class="intersect:motion-preset-slide-in-from-left intersect-once mb-4 text-3xl font-bold sm:mb-8 sm:text-5xl">
