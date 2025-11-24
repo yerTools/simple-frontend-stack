@@ -9,7 +9,7 @@ import lqip from "vite-plugin-lqip";
 import solidPlugin from "vite-plugin-solid";
 import webfontDownload from "vite-plugin-webfont-dl";
 
-const root = resolve(__dirname, "src");
+const root = resolve(__dirname, "src/frontend");
 
 export default defineConfig({
   root: root,
