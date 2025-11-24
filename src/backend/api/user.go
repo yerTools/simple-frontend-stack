@@ -20,9 +20,9 @@ var userMutex = sync.Mutex{}
 
 // RegisterUserAPI registers the user management API endpoints with the PocketBase server.
 // It attaches three HTTP routes:
-// - GET  /api/user/exists           : Determines if any user accounts beyond the default exist.
-// - POST /api/user/create           : Creates the first normal user and matching superuser when none exist.
-// - GET  /api/user/is-authenticated : Checks if the current request is authenticated and if admin creation is allowed.
+// - GET  /api/user/exists            : Determines if any user accounts beyond the default exist.
+// - POST /api/user/create-admin-user : Creates the first normal user and matching superuser when none exist.
+// - GET  /api/user/is-authenticated  : Checks if the current request is authenticated and if admin creation is allowed.
 //
 // GET /api/user/exists responses:
 //
@@ -30,7 +30,7 @@ var userMutex = sync.Mutex{}
 //	            {"exists":false} if no users and only the initial default superuser remain.
 //	500 Error - On database count or fetch failures.
 //
-// POST /api/user/create expected form parameters:
+// POST /api/user/create-admin-user expected form parameters:
 //
 //	email           (string) Required. Valid email for new accounts.
 //	password        (string) Required. Minimum 10 characters.
@@ -75,7 +75,7 @@ func RegisterUserAPI(app *pocketbase.PocketBase, cfg configuration.AppConfig) {
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		if cfg.General.InitialAdminRegistration {
-			// Handler: POST /api/user/create
+			// Handler: POST /api/user/create-admin-user
 			// Purpose: Initializes the first normal user and a matching superuser when no users exist.
 			// Parameters (form):
 			//   - email           string (required): email address for new accounts.
@@ -86,7 +86,7 @@ func RegisterUserAPI(app *pocketbase.PocketBase, cfg configuration.AppConfig) {
 			//   400: Bad request on missing or invalid parameters.
 			//   409: Conflict if users already exist or superuser count mismatch.
 			//   500: Internal error on database or transaction failures.
-			se.Router.POST("/api/user/create", func(e *core.RequestEvent) error {
+			se.Router.POST("/api/user/create-admin-user", func(e *core.RequestEvent) error {
 				userMutex.Lock()
 				defer userMutex.Unlock()
 

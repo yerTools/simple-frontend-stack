@@ -74,34 +74,34 @@ async function isAuthenticatedApi(): Promise<
 }
 
 /**
- * Error type for createUser API failures
+ * Error type for createAdminUser API failures
  */
-export type CreateUserError =
-  | (ResponseError<"createUser"> & {
+export type CreateAdminUserError =
+  | (ResponseError<"createAdminUser"> & {
       innerError?: unknown;
     })
   | LoginError;
 
 /**
- * Creates the first user account via POST /api/user/create
+ * Creates the first admin user account via POST /api/user/create-admin-user.
  * On success, logs the user in; on failure, returns an error.
  * @param email - email address for the new user
  * @param password - password for the new user
  * @param passwordConfirm - must match the password
  * @returns Promise that resolves to a Result containing true on success or an error
  */
-export async function createUser(
+export async function createAdminUser(
   email: string,
   password: string,
   passwordConfirm: string,
-): Promise<Result<boolean, CreateUserError>> {
+): Promise<Result<boolean, CreateAdminUserError>> {
   try {
     const form = new FormData();
     form.append("email", email);
     form.append("password", password);
     form.append("passwordConfirm", passwordConfirm);
 
-    const res = await fetch("/api/user/create", {
+    const res = await fetch("/api/user/create-admin-user", {
       method: "POST",
       body: form,
     });
@@ -111,7 +111,7 @@ export async function createUser(
     }
   } catch (error) {
     return err({
-      type: "createUser",
+      type: "createAdminUser",
       message: `Failed to create user: ${error}`,
       innerError: error,
     });
@@ -139,6 +139,7 @@ export async function loginUser(
 ): Promise<Result<boolean, LoginError>> {
   try {
     await pb.collection("users").authWithPassword(email, password);
+    setAuthenticated(true);
     setCanCreateAdmin(false);
     return ok(true);
   } catch (error) {
@@ -151,6 +152,11 @@ export async function loginUser(
   }
 }
 
+export function logoutUser(): void {
+  pb.authStore.clear();
+  setAuthenticated(false);
+}
+
 void isAuthenticatedApi().then((result) => {
   const [value, error] = result;
   if (error) {
@@ -160,6 +166,6 @@ void isAuthenticatedApi().then((result) => {
   if (!value.isAuthenticated) {
     pb.authStore.clear();
   }
-  setCanCreateAdmin(value.canCreateAdmin);
   setAuthenticated(value.isAuthenticated);
+  setCanCreateAdmin(value.canCreateAdmin);
 });

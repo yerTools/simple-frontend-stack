@@ -1,6 +1,7 @@
 import AnarchyIcon from "~icons/game-icons/anarchy";
 import FistIcon from "~icons/game-icons/fist";
 import HammerSickleIcon from "~icons/game-icons/hammer-sickle";
+import LogoutIcon from "~icons/hugeicons/logout-02";
 import MenuIcon from "~icons/line-md/close-to-menu-alt-transition";
 import GitHubIcon from "~icons/line-md/github-loop";
 import XIcon from "~icons/line-md/menu-to-close-transition";
@@ -26,6 +27,7 @@ import { A, RouteSectionProps, useLocation } from "@solidjs/router";
 import { Observer } from "tailwindcss-intersect";
 
 import { pageList } from "../..";
+import { isAuthenticated, logoutUser } from "../../service/api/user";
 
 const getBreadcrumbs = () => {
   const location = useLocation();
@@ -82,66 +84,107 @@ const NavigationLinks = (props: {
   const location = useLocation();
 
   return (
-    <For each={pageList}>
-      {(page) => {
-        switch (props.kind) {
-          case "desktop":
-            return (
-              <li>
+    <>
+      <For each={pageList}>
+        {(page) => {
+          switch (props.kind) {
+            case "desktop":
+              return (
+                <li>
+                  <A
+                    href={page.path}
+                    activeClass="bg-base-200 font-medium"
+                    class={
+                      "hover:text-primary group text-xs-adjust rounded-lg py-1 transition-all duration-200 hover:scale-105 sm:py-2 sm:text-sm md:text-base"
+                    }
+                    end={true}
+                    onClick={props.onClick}
+                  >
+                    {page.icon && (
+                      <page.icon
+                        class={
+                          "mr-1 inline h-4 w-4 transition-transform duration-200 group-hover:-rotate-12 sm:h-5 sm:w-5"
+                        }
+                      />
+                    )}
+                    {page.title}
+                  </A>
+                </li>
+              );
+            case "mobile":
+              return (
                 <A
                   href={page.path}
-                  activeClass="bg-base-200 font-medium"
-                  class={
-                    "hover:text-primary group text-xs-adjust rounded-lg py-1 transition-all duration-200 hover:scale-105 sm:py-2 sm:text-sm md:text-base"
-                  }
-                  end={true}
+                  class={`btn btn-ghost btn-xs-adjust sm:btn-sm my-1 justify-start ${
+                    location.pathname === page.path ?
+                      "bg-base-300 font-medium"
+                    : ""
+                  }`}
                   onClick={props.onClick}
                 >
                   {page.icon && (
-                    <page.icon
-                      class={
-                        "mr-1 inline h-4 w-4 transition-transform duration-200 group-hover:-rotate-12 sm:h-5 sm:w-5"
-                      }
-                    />
+                    <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
+                  )}
+                  <span class="truncate">{page.title}</span>
+                </A>
+              );
+            case "footer":
+              return (
+                <A
+                  href={page.path}
+                  class="link link-hover text-xs-adjust sm:text-sm"
+                >
+                  {page.icon && (
+                    <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
                   )}
                   {page.title}
                 </A>
-              </li>
-            );
-          case "mobile":
-            return (
-              <A
-                href={page.path}
-                class={`btn btn-ghost btn-xs-adjust sm:btn-sm my-1 justify-start ${
-                  location.pathname === page.path ?
-                    "bg-base-300 font-medium"
-                  : ""
-                }`}
-                onClick={props.onClick}
-              >
-                {page.icon && (
-                  <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
-                )}
-                <span class="truncate">{page.title}</span>
-              </A>
-            );
-          case "footer":
-            return (
-              <A
-                href={page.path}
-                class="link link-hover text-xs-adjust sm:text-sm"
-              >
-                {page.icon && (
-                  <page.icon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
-                )}
-                {page.title}
-              </A>
-            );
-          default:
-            const _: never = props.kind;
-        }
-      }}
-    </For>
+              );
+            default:
+              const _: never = props.kind;
+          }
+        }}
+      </For>
+      {isAuthenticated() ?
+        props.kind === "desktop" ?
+          <li>
+            <A
+              href="/"
+              activeClass="bg-base-200 font-medium"
+              class={
+                "hover:text-primary group text-xs-adjust rounded-lg py-1 transition-all duration-200 hover:scale-105 sm:py-2 sm:text-sm md:text-base"
+              }
+              end={true}
+              onClick={logoutUser}
+            >
+              <LogoutIcon
+                class={
+                  "mr-1 inline h-4 w-4 transition-transform duration-200 group-hover:-rotate-12 sm:h-5 sm:w-5"
+                }
+              />
+              Logout
+            </A>
+          </li>
+        : props.kind === "mobile" ?
+          <A
+            href="/"
+            class={"btn btn-ghost btn-xs-adjust sm:btn-sm my-1 justify-start"}
+            onClick={props.onClick}
+          >
+            <LogoutIcon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
+            <span class="truncate">Logout</span>
+          </A>
+        : (props.kind as string) === "footer" ?
+          <A
+            href="/"
+            class="link link-hover text-xs-adjust sm:text-sm"
+          >
+            <LogoutIcon class="mr-1 inline h-4 w-4 sm:h-5 sm:w-5" />
+            Logout
+          </A>
+        : <></>
+      : <></>}
+    </>
   );
 };
 

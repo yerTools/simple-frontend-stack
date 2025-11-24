@@ -30,7 +30,7 @@ func ParseAppConfig(data []byte) (AppConfig, error) {
 }
 
 func sanitizeJSONC(data []byte) ([]byte, error) {
-	appConfigJSONCReader := bytes.NewReader(config.AppConfigJSONC)
+	appConfigJSONCReader := bytes.NewReader(data)
 
 	jsoncFilter, err := jsonc.New(appConfigJSONCReader, true, "")
 	if err != nil {

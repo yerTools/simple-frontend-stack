@@ -1,17 +1,20 @@
-import { Component, ComponentProps, For, JSX } from "solid-js";
+import { Component, ComponentProps, For, JSX, lazy } from "solid-js";
 
 import { Route, RouteSectionProps, Router } from "@solidjs/router";
 
 import Layout from "./pages/well-known/Layout";
+import { canCreateAdmin, isAuthenticated } from "./service/api/user";
 
 export interface PageDefinition {
   title?: string;
   component: Component<RouteSectionProps<unknown>>;
   icon?: (props: ComponentProps<"svg">) => JSX.Element;
+  authenticationRequired?: boolean;
 }
 
 export type WellKnownPages = {
   layout: PageDefinition;
+  minimalLayout: PageDefinition;
   notFound: PageDefinition;
   login: PageDefinition;
   createAdminUser: PageDefinition;
@@ -35,17 +38,21 @@ export const DefaultWellKnownPages: WellKnownPages = {
     title: "Layout",
     component: Layout,
   },
+  minimalLayout: {
+    title: "Minimal Layout",
+    component: lazy(() => import("./pages/well-known/MinimalLayout")),
+  },
   notFound: {
     title: "Not Found",
-    component: () => <span>404 Not Found</span>,
+    component: lazy(() => import("./pages/well-known/NotFound")),
   },
   login: {
     title: "Login",
-    component: () => <span>Login Page</span>,
+    component: lazy(() => import("./pages/well-known/Login")),
   },
   createAdminUser: {
     title: "Create Admin User",
-    component: () => <span>Create Admin User Page</span>,
+    component: lazy(() => import("./pages/well-known/CreateAdminUser")),
   },
 };
 
@@ -96,25 +103,60 @@ export function transformPageTree<T extends PageTree>(
   return [pageList, wellKnown, pageTree];
 }
 
+function AppLayout(
+  wellKnown: WellKnownPages,
+  pageList: PageList,
+): (props: RouteSectionProps<unknown>) => JSX.Element {
+  const authenticationRequired: Record<string, boolean> = {};
+  for (const page of pageList) {
+    authenticationRequired[page.path] = page.authenticationRequired === true;
+  }
+
+  return (props: RouteSectionProps<unknown>): JSX.Element => (
+    <>
+      {(
+        authenticationRequired[props.location.pathname] === true &&
+        !isAuthenticated()
+      ) ?
+        wellKnown.minimalLayout.component(props)
+      : wellKnown.layout.component(props)}
+    </>
+  );
+}
+
 export function App(props: {
   wellKnown: WellKnownPages;
   pageList: PageList;
 }): JSX.Element {
   return (
-    <Router root={props.wellKnown.layout.component}>
-      <For
-        each={props.pageList}
-        children={(page) => (
+    <>
+      {canCreateAdmin() === true ?
+        <Router root={props.wellKnown.minimalLayout.component}>
           <Route
-            path={page.path}
-            component={page.component}
+            path="*"
+            component={props.wellKnown.createAdminUser.component}
           />
-        )}
-      />
-      <Route
-        path="*404"
-        component={props.wellKnown.notFound.component}
-      />
-    </Router>
+        </Router>
+      : <Router root={AppLayout(props.wellKnown, props.pageList)}>
+          <For
+            each={props.pageList}
+            children={(page) => (
+              <Route
+                path={page.path}
+                component={
+                  page.authenticationRequired === true && !isAuthenticated() ?
+                    props.wellKnown.login.component
+                  : page.component
+                }
+              />
+            )}
+          />
+          <Route
+            path="*404"
+            component={props.wellKnown.notFound.component}
+          />
+        </Router>
+      }
+    </>
   );
 }

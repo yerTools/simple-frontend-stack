@@ -25,6 +25,7 @@ export const [pageList, wellKnownPages, pageTree] = transformPageTree({
     title: "SolidJS",
     component: () => <span>SolidJS Page</span>,
     icon: SolidIcon,
+    authenticationRequired: true,
   },
   tailwind: {
     title: "TailwindCSS",
