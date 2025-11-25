@@ -42,8 +42,10 @@ func DebugPrint(w io.Writer) error {
 				fmt.Fprintf(w, "%s[%s]\n", indent, node.Name)
 			}
 		} else {
+			redactedConfigValue := redactSensitiveValue(node.Name, fmt.Sprint(node.Value))
+
 			// This is a leaf value
-			fmt.Fprintf(w, "%s%s: %v\n", indent, node.Name, node.Value)
+			fmt.Fprintf(w, "%s%s: %v\n", indent, node.Name, redactedConfigValue)
 		}
 
 		return nil
