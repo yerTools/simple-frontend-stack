@@ -44,7 +44,9 @@ func CLIArgs(cfg AppConfig) []string {
 	// --encryptionEnv flag: encryption key environment variable
 	// Note: PocketBase expects the NAME of an env var, not the value directly
 	if cfg.Server.EncryptionKey != nil && *cfg.Server.EncryptionKey != "" {
-		os.Setenv("POCKET_BASE_SERVER_ENCRYPTION_KEY", *cfg.Server.EncryptionKey)
+		if os.Getenv("POCKET_BASE_SERVER_ENCRYPTION_KEY") == "" {
+			os.Setenv("POCKET_BASE_SERVER_ENCRYPTION_KEY", *cfg.Server.EncryptionKey)
+		}
 		args = append(args, "--encryptionEnv", "POCKET_BASE_SERVER_ENCRYPTION_KEY")
 	}
 

@@ -64,6 +64,8 @@ func DebugPrint(w io.Writer) error {
 	// Print in a more organized way
 	for envVar, node := range envMap {
 		envValue := os.Getenv(envVar)
+		redactedEnvValue := redactSensitiveValue(envVar, envValue)
+		redactedConfigValue := redactSensitiveValue(envVar, fmt.Sprint(node.Value))
 		path := strings.Join(node.AbsolutePath, ".")
 
 		fmt.Fprintf(w, "  %s\n", envVar)
@@ -75,9 +77,9 @@ func DebugPrint(w io.Writer) error {
 		if node.EnvSeparator != "" {
 			fmt.Fprintf(w, "    Separator:   %q\n", node.EnvSeparator)
 		}
-		fmt.Fprintf(w, "    Config Value: %v\n", node.Value)
+		fmt.Fprintf(w, "    Config Value: %v\n", redactedConfigValue)
 		if envValue != "" {
-			fmt.Fprintf(w, "    Env Value:   %s\n", envValue)
+			fmt.Fprintf(w, "    Env Value:   %s\n", redactedEnvValue)
 		} else {
 			fmt.Fprintf(w, "    Env Value:   (not set)\n")
 		}
@@ -134,4 +136,22 @@ func DebugPrintIfEnabled(w io.Writer) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func redactSensitiveValue(envVar, value string) string {
+	if value == "" {
+		return "(not set)"
+	}
+
+	// Redact values for environment variables containing sensitive keywords
+	sensitiveKeywords := []string{"KEY", "SECRET", "PASSWORD", "TOKEN", "CREDENTIAL", "AUTH"}
+	upperEnvVar := strings.ToUpper(envVar)
+
+	for _, keyword := range sensitiveKeywords {
+		if strings.Contains(upperEnvVar, keyword) {
+			return "***REDACTED***"
+		}
+	}
+
+	return value
 }

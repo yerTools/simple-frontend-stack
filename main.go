@@ -68,6 +68,10 @@ func main() {
 		log.Panicf("failed to load app config: %v", err)
 	}
 
+	// detect "go run" execution or allow explicit override
+	isDev := appConfig.Server.ForceDevMode ||
+		strings.Contains(os.Args[0], os.TempDir())
+
 	// Inject CLI arguments from configuration
 	os.Args = configuration.InjectCLIArgs(os.Args, appConfig)
 
@@ -76,11 +80,9 @@ func main() {
 		log.Printf("Warning: failed to print debug info: %v", err)
 	}
 
-	// detect "go run" execution or allow explicit override
-	isDev := appConfig.Server.ForceDevMode ||
-		strings.Contains(os.Args[0], os.TempDir())
-
-	log.Printf("Application is starting (is dev: %v)...\n", isDev)
+	if isDev {
+		log.Printf("Application is starting (is dev: %v)...\n", isDev)
+	}
 
 	inContext(
 		10*time.Second,
