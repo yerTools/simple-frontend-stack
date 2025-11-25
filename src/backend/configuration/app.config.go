@@ -13,6 +13,7 @@ type GeneralConfig struct {
 	Version                  string `json:"version" env:"APP_GENERAL_VERSION" env-description:"The current version of the application."`
 	URL                      string `json:"url" env:"APP_GENERAL_URL" env-description:"The URL this application is hosted at."`
 	InitialAdminRegistration bool   `json:"initialAdminRegistration" env:"APP_GENERAL_INITIAL_ADMIN_REGISTRATION" env-default:"false" env-description:"Enable the initial admin user registration form."`
+	Debug                    bool   `json:"debug" env:"APP_GENERAL_DEBUG" env-default:"false" env-description:"Enable debug mode to print configuration and environment variables on startup."`
 }
 
 // ServerConfig groups server-specific settings.

@@ -126,8 +126,14 @@ func Get() (AppConfig, error) {
 
 	err = cleanenv.ParseJSON(jsonReader, &loadedAppConfig)
 	if err != nil {
-		return AppConfig{}, fmt.Errorf("failed to parse JSON with environment variables: %w", err)
+		return AppConfig{}, fmt.Errorf("failed to parse JSON: %w", err)
 	}
+
+	err = cleanenv.ReadEnv(&loadedAppConfig)
+	if err != nil {
+		return AppConfig{}, fmt.Errorf("failed to read environment variables: %w", err)
+	}
+
 	appConfigLoaded = true
 
 	return loadedAppConfig, nil

@@ -72,7 +72,17 @@ func main() {
 	isDev := appConfig.Server.ForceDevMode ||
 		strings.Contains(os.Args[0], os.TempDir())
 
-	log.Printf("Application is starting (is dev: %v)...\n", isDev)
+	// Inject CLI arguments from configuration
+	os.Args = configuration.InjectCLIArgs(os.Args, appConfig)
+
+	// Print debug information if enabled
+	if _, err := configuration.DebugPrintIfEnabled(nil); err != nil {
+		log.Printf("Warning: failed to print debug info: %v", err)
+	}
+
+	if isDev {
+		log.Printf("Application is starting (is dev: %v)...\n", isDev)
+	}
 
 	inContext(
 		10*time.Second,

@@ -111,7 +111,7 @@ VOLUME ["/app/pb_data", "/app/pb_public", "/app/pb_hooks", "/app/pb_migrations"]
 # Define the entrypoint and command to run the application
 # Note: We don't use USER appuser because entrypoint needs to start as root
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["/app/simple_frontend_stack", "serve", "--http=0.0.0.0:8161"]
+CMD ["/app/simple_frontend_stack"]
 
 # Build this image with:
 # docker build -t simple-frontend-stack .
