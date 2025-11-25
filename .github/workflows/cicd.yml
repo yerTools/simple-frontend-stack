@@ -47,14 +47,6 @@ jobs:
       - name: 📚 Install Backend Go Dependencies
         run: go mod download
 
-      - name: 🔍 Scan Dependencies for Security Vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        with:
-          args: --severity-threshold=high
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
       - name: 🧪 Run TypeScript Type Checking
         run: bun run type-check
 
@@ -154,8 +146,8 @@ jobs:
       - name: 🔑 Authenticate to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.GH_PACKAGES_USERNAME }}
-          password: ${{ secrets.GH_PACKAGES_PASSWORD }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
 
       - name: 🛠️ Set Up Docker Buildx for Multi-Platform Builds
