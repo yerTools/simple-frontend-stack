@@ -68,6 +68,14 @@ func main() {
 		log.Panicf("failed to load app config: %v", err)
 	}
 
+	// Inject CLI arguments from configuration
+	os.Args = configuration.InjectCLIArgs(os.Args, appConfig)
+
+	// Print debug information if enabled
+	if _, err := configuration.DebugPrintIfEnabled(nil); err != nil {
+		log.Printf("Warning: failed to print debug info: %v", err)
+	}
+
 	// detect "go run" execution or allow explicit override
 	isDev := appConfig.Server.ForceDevMode ||
 		strings.Contains(os.Args[0], os.TempDir())

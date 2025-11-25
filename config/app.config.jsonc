@@ -10,6 +10,8 @@
     "url": "https://sfs.ltl.re/",
     // Initial admin user registration form active.
     "initialAdminRegistration": false,
+    // Enable debug mode to print configuration and environment variables on startup.
+    "debug": false,
   },
   "server": {
     "http": {
