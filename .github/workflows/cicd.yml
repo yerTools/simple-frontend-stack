@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 🔧 Setup Go Runtime Environment
         uses: actions/setup-go@v6
@@ -120,7 +120,7 @@ jobs:
       pull-requests: read
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 🏷️ Extract Version Information
         id: version
@@ -211,7 +211,7 @@ jobs:
       GO111MODULE: "on"
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 🔧 Setup Go Runtime Environment
         uses: actions/setup-go@v6
@@ -273,7 +273,7 @@ jobs:
       actions: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 🥟 Setup Bun JavaScript Runtime
         uses: oven-sh/setup-bun@v2
@@ -310,7 +310,7 @@ jobs:
       contents: write
     steps:
       - name: 📥 Checkout Repository Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 📥 Download All Artifacts
         uses: actions/download-artifact@v6
